@@ -35,7 +35,7 @@ public class TileMapTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && PlayerPrefs.GetInt("MovingBlockSet") == 0)
         {
             for (int i = -5; i < 5; i++)
             {
