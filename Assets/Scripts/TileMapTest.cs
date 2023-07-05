@@ -12,11 +12,14 @@ public class TileMapTest : MonoBehaviour
     [SerializeField] private GameObject[] moveTiles;
 
     private List<List<GameObject>> tileObjectList;
+    private Spots spots;
 
     // Start is called before the first frame update
     void Start()
     {
         map.CompressBounds();
+
+        spots = GameObject.Find("Spots Taken").GetComponent<Spots>();
 
         tileObjectList = new List<List<GameObject>>();
 
@@ -45,10 +48,11 @@ public class TileMapTest : MonoBehaviour
             {
                 MoveSetUp(i);
             }
+            spots.PushAllUp();
             MakeNextSet();
             for (int i = -2; i < 3; i++)
             {
-                CheckTileBelow(i);
+                //CheckTileBelow(i);
             }
         }
     }
@@ -82,6 +86,8 @@ public class TileMapTest : MonoBehaviour
                 tileObjectList[i][0] = newTile;
             }
         }
+
+        spots.Insert(nextSet);
     }
 
     // Move the set up one row
@@ -131,11 +137,13 @@ public class TileMapTest : MonoBehaviour
         }
     }
 
+    // Return the current position
     private Vector3Int CreateCurrentPosition(int currentColumn, int currentRow)
     {
         return new Vector3Int(currentColumn, currentRow, 0);
     }
 
+    // Return the current Tile
     private TileBase CreateCurrentTile(Vector3Int currentPosition)
     {
         return map.GetTile(currentPosition);
