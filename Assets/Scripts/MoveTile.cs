@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveTile : MonoBehaviour
 {
-    //TODO: 
+    //TODO
 
     public bool follow { get; private set; }
     public Vector2 lastPosition { get; private set; }
+    public int distance { get; private set; }
 
-    private int _distance = 0;
     private Vector2 _position;
     private Vector2 _newPosition;
     private bool _moving;
-    private bool[][] _locations;
-    private GameObject[][] _tileObjects;
 
-    private const int COLUMN_COUNT = 10;
-    private const float MOVE_SPEED = 5f;
+    private const float MOVE_TIME = 0.25f;
 
-    void Start()
+    private void Start()
     {
+        distance = 0;
     }
 
     // Begin moving process
@@ -39,6 +38,17 @@ public class MoveTile : MonoBehaviour
 
         _moving = true;
         _newPosition = newPosition;
+
+        Debug.Log(newPosition.y + " " + transform.position.y);
+
+        // Floats are weird man
+        if (newPosition.y == Mathf.RoundToInt(transform.position.y))
+        {
+            transform.position = newPosition;
+            return;
+        }
+
+        StartCoroutine(Move(transform.position, newPosition));
     }
 
     private void FixedUpdate()
@@ -47,7 +57,6 @@ public class MoveTile : MonoBehaviour
         if (_moving)
         {
             _position = transform.position;
-            transform.position = Vector3.MoveTowards(_position, _newPosition, MOVE_SPEED * Time.deltaTime);
         }
 
         // Make the object no longer move
@@ -64,7 +73,7 @@ public class MoveTile : MonoBehaviour
         if (follow)
         {
             Vector2 newPosition = GetMousePosition();
-            newPosition.x += _distance;
+            newPosition.x += distance;
             transform.position = newPosition;
         }
     }
@@ -75,8 +84,6 @@ public class MoveTile : MonoBehaviour
         // Move everything to new position (or old position)
         if (follow)
         {
-            follow = false;
-
             if (!ValidMove())
             {
                 MoveAll(true, 0);
@@ -125,8 +132,6 @@ public class MoveTile : MonoBehaviour
         int originalColumn = column;
         int row = Mathf.RoundToInt(newPosition.y);
 
-        //SetOldValues();
-
         // Check rows at right tiles
         while (tile != null)
         {
@@ -172,6 +177,7 @@ public class MoveTile : MonoBehaviour
                 newPosition.y = row;
 
             moveTile.follow = false;
+            moveTile.distance = 0;
             moveTile.Move(newPosition);
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
@@ -192,6 +198,7 @@ public class MoveTile : MonoBehaviour
                 newPosition.y = row;
 
             moveTile.follow = false;
+            moveTile.distance = 0;
             moveTile.Move(newPosition);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
@@ -201,27 +208,37 @@ public class MoveTile : MonoBehaviour
     private void MakeAllFollow()
     {
         GameObject tile = this.gameObject;
+        int newDistance = distance;
 
         // Make tiles to the right follow
         while (tile != null)
         {
-            tile.GetComponent<MoveTile>().Follow(_distance);
+            tile.GetComponent<MoveTile>().Follow(newDistance);
             tile = tile.GetComponent<LinkTiles>().nextTile;
-            _distance++;
+            newDistance++;
+            Debug.Log(newDistance);
         }
 
         tile = this.gameObject;
-        _distance = 0;
+        newDistance = distance;
 
         // Make tiles to the left follow
         while (tile != null)
         {
-            tile.GetComponent<MoveTile>().Follow(_distance);
+            tile.GetComponent<MoveTile>().Follow(newDistance);
             tile = tile.GetComponent<LinkTiles>().previousTile;
-            _distance--;
+            newDistance--;
         }
+    }
 
-        _distance = 0;
+    // Move tile
+    private IEnumerator Move(Vector2 startPosition, Vector2 newPosition)
+    {
+        for (float time = 0; time < 1; time += Time.deltaTime / MOVE_TIME)
+        {
+            transform.position = Vector2.Lerp(startPosition, newPosition, time);
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -249,9 +266,6 @@ public class MoveTile : MonoBehaviour
         int currentColumn = Mathf.RoundToInt(lastPosition.x);
         int originalColumn = currentColumn;
         int currentRow = Mathf.RoundToInt(lastPosition.y);
-
-        /*boardControl.locations[currentRow][currentColumn] = false;
-        boardControl.tileObjects[currentRow][currentColumn] = null;*/
 
         // Right tiles
         while (tile != null)
@@ -281,7 +295,7 @@ public class MoveTile : MonoBehaviour
     /// <param name="distance"></param>
     public void Follow(int distance)
     {
-        _distance = distance;
+        this.distance = distance;
         lastPosition = transform.position;
         GetComponent<SpriteRenderer>().sortingOrder = 3;
         follow = true;

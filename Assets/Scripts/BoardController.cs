@@ -1,12 +1,11 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
-    // TODO Add comments and make row destroy after being complete
-
-
     [SerializeField] private GameObject[] _moveTiles;
+    [SerializeField] private Score _scoreboard;
 
     public bool[][] locations { get; set; }
     public GameObject[][] tileObjects { get; set; }
@@ -20,6 +19,7 @@ public class BoardController : MonoBehaviour
     {
         PlayerPrefs.SetInt("Moved", 0);
         PlayerPrefs.SetInt("IsMoving", 0);
+        PlayerPrefs.SetInt("Score", 0);
 
         locations = new bool[ROW_COUNT][];
         tileObjects = new GameObject[ROW_COUNT][];
@@ -70,6 +70,7 @@ public class BoardController : MonoBehaviour
         return newTileSet;
     }
 
+    // Create the next (bottom) set of the array
     private bool[] MakeSet()
     {
         const int START_COUNT = 3;
@@ -90,6 +91,7 @@ public class BoardController : MonoBehaviour
         return nextSet;
     }
 
+    // Randomly choose whether or not to link the tiles on the bottom row
     private void LinkBottomRow()
     {
         const float LINK_NUM = 0.5f;
@@ -124,6 +126,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Instantiate the tiles based on their position in the array
     private void DisplayTiles(bool[] set)
     {
         for (int column = 0; column < COLUMN_COUNT; column++)
@@ -138,6 +141,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Move every row up by one
     private void MoveRowsUp(int row)
     {
         if (row == 0)
@@ -161,15 +165,15 @@ public class BoardController : MonoBehaviour
             {
                 Vector2 position = item.transform.position;
                 position.y = row;
-                //item.GetComponent<MoveTile>().MoveAll(false, row);
                 item.GetComponent<MoveTile>().Move(position);
             }
-            catch (System.Exception ex) { }
+            catch (System.Exception ex) { } // Tile is null
         }
 
         MoveRowsUp(row - 1);
     }
 
+    // Decide if the row below each tile is good to be moved to, and move if so
     private bool CheckRowBelow(int row)
     {
         if (row == ROW_COUNT) return false;
@@ -219,6 +223,7 @@ public class BoardController : MonoBehaviour
         return moved;
     }
 
+    // Move the tile at the row and column down by one
     private void MoveTilesDown(int row, int column)
     {
         int rowBelow = row - 1;
@@ -234,6 +239,7 @@ public class BoardController : MonoBehaviour
         tile.GetComponent<MoveTile>().Move(newPosition);
     }
 
+    // Determines if the tile is multilengthed
     private bool CheckMultiLengthTile(int tileRow, int tileColumn)
     {
         GameObject tile = tileObjects[tileRow][tileColumn];
@@ -247,21 +253,57 @@ public class BoardController : MonoBehaviour
         return true;
     }
 
+    // Determines if there is a tile at the row below
     private bool CheckTile(int tileRow, int tileColumn)
     {
         if (locations[tileRow - 1][tileColumn]) return false;
         return true;
     }
 
+    // Determine if the row has been complete
+    private bool RowComplete(int row)
+    {
+        return !locations[row].Contains(false);
+    }
+
+    // Destroy the given row
+    private void DestroyRow(int row)
+    {
+        int totalScore = 0;
+
+        for (int column = 0; column < COLUMN_COUNT; column++)
+        {
+            totalScore += _scoreboard.GenerateScore(tileObjects[row][column]);
+
+            locations[row][column] = false;
+            Destroy(tileObjects[row][column]);
+            tileObjects[row][column] = null;
+        }
+
+        _scoreboard.AddScore(totalScore);
+    }
+
+    // Makes tiles fall then go up
     private IEnumerator Fall(bool pushUp)
     {
         int row = 1;
         while (row < ROW_COUNT)
         {
             if (CheckRowBelow(row)) row = 0;
+
+            if (RowComplete(row))
+            {
+                yield return new WaitForSeconds(0.5f);
+                DestroyRow(row);
+                StartCoroutine(Fall(true));
+                yield break;
+            }
+
             row++;
         }
+
         yield return new WaitForSeconds(0.25f);
+
         if (pushUp)
         {
             MoveRowsUp(ROW_COUNT - 1);
@@ -271,11 +313,17 @@ public class BoardController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Method <c>MoveUp</c> moves all tiles up by one row
+    /// </summary>
     public void MoveUp()
     {
         MoveRowsUp(ROW_COUNT - 1);
     }
 
+    /// <summary>
+    /// Method <c>Print</c> outputs each row of the locations array
+    /// </summary>
     public void Print()
     {
         foreach (var row in locations)
