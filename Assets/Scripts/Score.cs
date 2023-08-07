@@ -10,6 +10,17 @@ public class Score : MonoBehaviour
         PlayerPrefs.SetInt("BaseScore", 5);
     }
 
+    // Displays the score in the text component
+    private void DisplayScore()
+    {
+        GetComponent<TextMeshProUGUI>().text = "Score: " + PlayerPrefs.GetInt("Score");
+    }
+
+    /// <summary>
+    /// Method <c>GenerateScore</c> generates the score the given tile.
+    /// </summary>
+    /// <param name="tile">the tile for which score should be calculated.</param>
+    /// <returns>The calculated score</returns>
     public int GenerateScore(GameObject tile)
     {
         float score = PlayerPrefs.GetInt("BaseScore");
@@ -20,6 +31,10 @@ public class Score : MonoBehaviour
         return Mathf.RoundToInt(score);
     }
 
+    /// <summary>
+    /// Method <c>AddScore</c> adds the given score to the players total score count for the current run
+    /// </summary>
+    /// <param name="scoreToAdd">the score to be added</param>
     public void AddScore(int scoreToAdd)
     {
         PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score") + scoreToAdd);
@@ -31,10 +46,5 @@ public class Score : MonoBehaviour
         }
 
         DisplayScore();
-    }
-
-    private void DisplayScore()
-    {
-        GetComponent<TextMeshProUGUI>().text = "Score: " + PlayerPrefs.GetInt("Score");
     }
 }

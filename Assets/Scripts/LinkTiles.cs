@@ -9,6 +9,10 @@ public class LinkTiles : MonoBehaviour
     public GameObject nextTile { get; private set; }
     public bool linked { get; set; }
 
+    /// <summary>
+    /// Method <c>Link</c> links the current tile with the given tile
+    /// </summary>
+    /// <param name="nextTile">The tile to link to the current tile</param>
     public void Link(GameObject nextTile)
     {
         this.nextTile = nextTile;
@@ -22,6 +26,10 @@ public class LinkTiles : MonoBehaviour
         nextTile.GetComponent<LinkTiles>().linked = true;
     }
 
+    /// <summary>
+    /// Method <c>Length</c> returns the length of the tile chain
+    /// </summary>
+    /// <returns>Tile chain length</returns>
     public int Length()
     {
         int length = 0;

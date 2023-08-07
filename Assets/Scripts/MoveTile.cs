@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveTile : MonoBehaviour
@@ -21,6 +18,33 @@ public class MoveTile : MonoBehaviour
     private void Start()
     {
         distance = 0;
+    }
+
+    private void FixedUpdate()
+    {
+        // Move object towards new position
+        if (_moving)
+        {
+            _position = transform.position;
+        }
+
+        // Make the object no longer move
+        if (_position == _newPosition)
+        {
+            if (PlayerPrefs.GetInt("Moved") == 1)
+                PlayerPrefs.SetInt("Moved", 2);
+            PlayerPrefs.SetInt("IsMoving", 0);
+            GetComponent<SpriteRenderer>().sortingOrder = 2;
+            _moving = false;
+        }
+
+        // Have the object follow the mouse
+        if (follow)
+        {
+            Vector2 newPosition = GetMousePosition();
+            newPosition.x += distance;
+            transform.position = newPosition;
+        }
     }
 
     // Begin moving process
@@ -49,33 +73,6 @@ public class MoveTile : MonoBehaviour
         }
 
         StartCoroutine(Move(transform.position, newPosition));
-    }
-
-    private void FixedUpdate()
-    {
-        // Move object towards new position
-        if (_moving)
-        {
-            _position = transform.position;
-        }
-
-        // Make the object no longer move
-        if (_position == _newPosition)
-        {
-            if (PlayerPrefs.GetInt("Moved") == 1)
-                PlayerPrefs.SetInt("Moved", 2);
-            PlayerPrefs.SetInt("IsMoving", 0);
-            GetComponent<SpriteRenderer>().sortingOrder = 2;
-            _moving = false;
-        }
-
-        // Have the object follow the mouse
-        if (follow)
-        {
-            Vector2 newPosition = GetMousePosition();
-            newPosition.x += distance;
-            transform.position = newPosition;
-        }
     }
 
     // Detect mouse down events
