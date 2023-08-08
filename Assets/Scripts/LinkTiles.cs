@@ -27,6 +27,36 @@ public class LinkTiles : MonoBehaviour
     }
 
     /// <summary>
+    /// Method <c>Unlink</c> unlinks this tile from the ones directly next to it
+    /// </summary>
+    public void Unlink()
+    {
+        try { UnlinkNext(); }
+        catch (System.Exception ex) { }
+
+        try { UnlinkPrevious(); }
+        catch (System.Exception ex) { }
+    }
+
+    /// <summary>
+    /// Method <c>UnlinkNext</c> unlinks this tile from the next tile
+    /// </summary>
+    public void UnlinkNext()
+    {
+        nextTile.GetComponent<LinkTiles>().previousTile = null;
+        nextTile = null;
+    }
+
+    /// <summary>
+    /// Method <c>UnlinkPrevious</c> unlinks this tile from the previous tile
+    /// </summary>
+    public void UnlinkPrevious()
+    {
+        previousTile.GetComponent<LinkTiles>().nextTile = null;
+        previousTile = null;
+    }
+
+    /// <summary>
     /// Method <c>Length</c> returns the length of the tile chain
     /// </summary>
     /// <returns>Tile chain length</returns>

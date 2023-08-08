@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -82,11 +83,11 @@ public class BoardController : MonoBehaviour
             nextSet[column] = true;
         }
 
-        for (int i = 0; i < START_COUNT; i++)
+        /*for (int i = 0; i < START_COUNT; i++)
         {
             int removePosition = random.Next(COLUMN_COUNT);
             nextSet[removePosition] = false;
-        }
+        }*/
 
         return nextSet;
     }
@@ -102,24 +103,6 @@ public class BoardController : MonoBehaviour
         {
             GameObject tile = tileObjects[0][index];
             GameObject nextTile = tileObjects[0][index + 1];
-
-            if (length == 3)
-            {
-                length = 0;
-                continue;
-            }
-
-            if (tile == null || nextTile == null)
-            {
-                length = 0;
-                continue;
-            }
-
-            if (random.NextDouble() < LINK_NUM)
-            {
-                length = 0;
-                continue;
-            }
 
             tile.GetComponent<LinkTiles>().Link(nextTile);
             length++;
@@ -141,6 +124,55 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Make some tiloe spaces empty (can overlap)
+    private void EmptyTiles()
+    {
+        System.Random random = new System.Random();
+
+        for (int count = 0; count < 3; count++)
+        {
+            int index = random.Next(COLUMN_COUNT);
+            GameObject tile = tileObjects[0][index];
+
+            try
+            {
+                tile.GetComponent<LinkTiles>().Unlink();
+            }
+            catch (System.Exception ex){ }
+
+            Destroy(tile);
+            locations[0][index] = false;
+            tileObjects[0][index] = null;
+        }
+    }
+
+    // Ensure no tiles are longer than 4 tiles
+    private void MakeProperLength()
+    {
+        int length = 0;
+
+        for (int index = 0; index < COLUMN_COUNT - 1; index++)
+        {
+            GameObject tile = tileObjects[0][index];
+            GameObject nextTile = tileObjects[0][index + 1];
+
+            if (tile == null || nextTile == null)
+            {
+                length = 0;
+                continue;
+            }
+
+            if (length == 3)
+            {
+                tile.GetComponent<LinkTiles>().UnlinkNext();
+                length = 0;
+                continue;
+            }
+
+            length++;
+        }
+    }
+
     // Move every row up by one
     private void MoveRowsUp(int row)
     {
@@ -150,6 +182,8 @@ public class BoardController : MonoBehaviour
             locations[0] = newSet;
             DisplayTiles(newSet);
             LinkBottomRow();
+            EmptyTiles();
+            MakeProperLength();
             return;
         }
         
