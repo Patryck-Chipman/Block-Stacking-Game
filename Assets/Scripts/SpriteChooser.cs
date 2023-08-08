@@ -5,31 +5,43 @@ using UnityEngine;
 public class SpriteChooser : MonoBehaviour
 {
     [SerializeField]
-    private Sprite[] sprites;
+    private Sprite[] _sprites;
+
+    private LinkTiles _linked;
+    private GameObject _nextTile;
+    private GameObject _previousTile;
+    private TileColor _colors;
+
+    private const int COLOR_COUNT = 5;
 
     void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = PickSprite();
-    }
+        _linked = GetComponent<LinkTiles>();
+        _nextTile = _linked.nextTile;
+        _previousTile = _linked.previousTile;
 
-    // Update is called once per frame
-    void Update()
-    {
+        GetComponent<SpriteRenderer>().sprite = PickSprite();
+        GetComponent<SpriteRenderer>().color = PickColor();
     }
 
     private Sprite PickSprite()
     {
-        LinkTiles linked = GetComponent<LinkTiles>();
-        GameObject nextTile = linked.nextTile;
-        GameObject previousTile = linked.previousTile;
+        if (_nextTile != null && _previousTile != null) return _sprites[0];
+        if (_nextTile != null) return _sprites[1];
+        if (_previousTile != null) return _sprites[2];
+        return _sprites[3];
+    }
 
-        Color newColor = GetComponent<SpriteRenderer>().color;
-        //newColor.a = 0.5f;
-        GetComponent<SpriteRenderer>().color = newColor;
+    private Color PickColor()
+    {
+        _colors = Camera.main.GetComponent<TileColor>();
 
-        if (nextTile != null && previousTile != null) return sprites[0];
-        if (nextTile != null) return sprites[1];
-        if (previousTile != null) return sprites[2];
-        return sprites[3];
+        if (_previousTile == null)
+        {
+            System.Random random = new System.Random();
+            return _colors.colors[random.Next(COLOR_COUNT)];
+        }
+
+        return _previousTile.GetComponent<SpriteRenderer>().color;
     }
 }
