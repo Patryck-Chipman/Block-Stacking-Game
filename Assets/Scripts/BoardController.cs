@@ -13,14 +13,13 @@ public class BoardController : MonoBehaviour
 
     // Constants
     private const int ROW_COUNT = 11;
-    private const int COLUMN_COUNT = 10;
+    private const int COLUMN_COUNT = 9;
 
     // Start is called before the first frame update
     void Start()
     {
         PlayerPrefs.SetInt("Moved", 0);
         PlayerPrefs.SetInt("IsMoving", 0);
-        PlayerPrefs.SetInt("Score", 0);
 
         locations = new bool[ROW_COUNT][];
         tileObjects = new GameObject[ROW_COUNT][];
@@ -95,7 +94,6 @@ public class BoardController : MonoBehaviour
     // Randomly choose whether or not to link the tiles on the bottom row
     private void LinkBottomRow()
     {
-        const float LINK_NUM = 0.5f;
         int length = 0;
         System.Random random = new System.Random();
 

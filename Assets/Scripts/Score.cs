@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
+    [SerializeField] private HighScore _highScore;
+
     private void Start()
     {
         PlayerPrefs.SetInt("BaseScore", 5);
+        PlayerPrefs.SetInt("Score", 0);
+        DisplayScore();
     }
 
     // Displays the score in the text component
     private void DisplayScore()
     {
-        GetComponent<TextMeshProUGUI>().text = "Score: " + PlayerPrefs.GetInt("Score");
+        GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("Score").ToString();
     }
 
     /// <summary>
@@ -43,6 +47,12 @@ public class Score : MonoBehaviour
         {
             PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.2f));
             PlayerPrefs.SetInt("ScoreIncreaseThreshold", PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2);
+        }
+
+        if (PlayerPrefs.GetInt("Score") > PlayerPrefs.GetInt("High Score"))
+        {
+            PlayerPrefs.SetInt("High Score", PlayerPrefs.GetInt("Score"));
+            _highScore.DisplayScore();
         }
 
         DisplayScore();
