@@ -11,6 +11,7 @@ public class Score : MonoBehaviour
     {
         PlayerPrefs.SetInt("BaseScore", 5);
         PlayerPrefs.SetInt("Score", 0);
+        PlayerPrefs.SetInt("ScoreIncreaseThreshold", 300);
         DisplayScore();
     }
 
@@ -29,10 +30,9 @@ public class Score : MonoBehaviour
     {
         float score = PlayerPrefs.GetInt("BaseScore");
 
-        if (tile.GetComponent<LinkTiles>().nextTile != null || tile.GetComponent<LinkTiles>().previousTile != null)
-            score *= 1.3f;
+        if (tile == null) return Mathf.RoundToInt(score);
 
-        return Mathf.RoundToInt(score);
+        return Mathf.RoundToInt(score * tile.GetComponent<TileScore>().scoreMultiplier);
     }
 
     /// <summary>

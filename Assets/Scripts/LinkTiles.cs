@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +24,9 @@ public class LinkTiles : MonoBehaviour
 
         linked = true;
         nextTile.GetComponent<LinkTiles>().linked = true;
+
+        GetComponent<TileScore>().scoreMultiplier = 1.3f;
+        nextTile.GetComponent<TileScore>().scoreMultiplier = 1.3f;
     }
 
     /// <summary>

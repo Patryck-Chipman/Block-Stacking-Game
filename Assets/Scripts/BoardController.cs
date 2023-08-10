@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BoardController : MonoBehaviour
 {
@@ -73,7 +74,6 @@ public class BoardController : MonoBehaviour
     // Create the next (bottom) set of the array
     private bool[] MakeSet()
     {
-        const int START_COUNT = 3;
         bool[] nextSet = new bool[COLUMN_COUNT];
         System.Random random = new System.Random();
 
@@ -81,12 +81,6 @@ public class BoardController : MonoBehaviour
         {
             nextSet[column] = true;
         }
-
-        /*for (int i = 0; i < START_COUNT; i++)
-        {
-            int removePosition = random.Next(COLUMN_COUNT);
-            nextSet[removePosition] = false;
-        }*/
 
         return nextSet;
     }
@@ -171,6 +165,46 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Create powerUp tiles
+    private void MakePowerTiles()
+    {
+        System.Random random = new System.Random();
+
+        for (int column = 0; column < COLUMN_COUNT; column++)
+        {
+            GameObject tile = tileObjects[0][column];
+
+            if (tile == null) continue;
+
+            // Multi-row destroy tile
+            if (random.NextDouble() > 0.99)
+            {
+                MultiDestroyTile(tile);
+                return;
+            }
+        }
+    }
+
+    // Convert a tile into a multi-row destroy tile
+    private void MultiDestroyTile(GameObject tile)
+    {
+        GameObject orginTile = tile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<MultiDestroyTile>();
+            tile = tile.GetComponent<LinkTiles>().nextTile;
+        }
+
+        tile = orginTile.GetComponent<LinkTiles>().previousTile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<MultiDestroyTile>();
+            tile = tile.GetComponent<LinkTiles>().previousTile;
+        }
+    }
+
     // Move every row up by one
     private void MoveRowsUp(int row)
     {
@@ -182,6 +216,7 @@ public class BoardController : MonoBehaviour
             LinkBottomRow();
             EmptyTiles();
             MakeProperLength();
+            MakePowerTiles();
             return;
         }
         
@@ -301,11 +336,20 @@ public class BoardController : MonoBehaviour
     // Destroy the given row
     private void DestroyRow(int row)
     {
+        if (row < 0 || row > ROW_COUNT) return;
+
+        bool destroyAboveAndBelow = false;
+
         int totalScore = 0;
 
         for (int column = 0; column < COLUMN_COUNT; column++)
         {
             totalScore += _scoreboard.GenerateScore(tileObjects[row][column]);
+
+            if (!locations[row][column]) continue;
+
+            if (tileObjects[row][column].TryGetComponent<MultiDestroyTile>(out MultiDestroyTile tile))
+                destroyAboveAndBelow = true;
 
             locations[row][column] = false;
             Destroy(tileObjects[row][column]);
@@ -313,6 +357,8 @@ public class BoardController : MonoBehaviour
         }
 
         _scoreboard.AddScore(totalScore);
+
+        if (destroyAboveAndBelow) DestroyRow(row + 1);
     }
 
     // Makes tiles fall then go up
