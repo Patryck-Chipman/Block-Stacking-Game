@@ -6,10 +6,11 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     [SerializeField] private HighScore _highScore;
+    [SerializeField] private LevelProgressBar _progressBar;
 
     private void Start()
     {
-        PlayerPrefs.SetInt("BaseScore", 5);
+        PlayerPrefs.SetInt("BaseScore", 7);
         PlayerPrefs.SetInt("Score", 0);
         PlayerPrefs.SetInt("ScoreIncreaseThreshold", 300);
         DisplayScore();
@@ -43,17 +44,21 @@ public class Score : MonoBehaviour
     {
         PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score") + scoreToAdd);
 
-        if (PlayerPrefs.GetInt("Score") >= PlayerPrefs.GetInt("ScoreIncreaseThreshold"))
+        int score = PlayerPrefs.GetInt("Score");
+
+        if (score >= PlayerPrefs.GetInt("ScoreIncreaseThreshold"))
         {
             PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.2f));
             PlayerPrefs.SetInt("ScoreIncreaseThreshold", PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2);
         }
 
-        if (PlayerPrefs.GetInt("Score") > PlayerPrefs.GetInt("High Score"))
+        if (score > PlayerPrefs.GetInt("High Score"))
         {
-            PlayerPrefs.SetInt("High Score", PlayerPrefs.GetInt("Score"));
+            PlayerPrefs.SetInt("High Score", score);
             _highScore.DisplayScore();
         }
+
+        _progressBar.CalculateFillPercent(score);
 
         DisplayScore();
     }

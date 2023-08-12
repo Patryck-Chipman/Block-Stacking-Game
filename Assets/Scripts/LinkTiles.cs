@@ -25,8 +25,8 @@ public class LinkTiles : MonoBehaviour
         linked = true;
         nextTile.GetComponent<LinkTiles>().linked = true;
 
-        GetComponent<TileScore>().scoreMultiplier = 1.3f;
-        nextTile.GetComponent<TileScore>().scoreMultiplier = 1.3f;
+        GetComponent<TileScore>().scoreMultiplier = 1.5f;
+        nextTile.GetComponent<TileScore>().scoreMultiplier = 1.5f;
     }
 
     /// <summary>
@@ -34,6 +34,8 @@ public class LinkTiles : MonoBehaviour
     /// </summary>
     public void Unlink()
     {
+        GetComponent<TileScore>().scoreMultiplier = 1f;
+
         try { UnlinkNext(); }
         catch (System.Exception ex) { }
 
@@ -46,7 +48,11 @@ public class LinkTiles : MonoBehaviour
     /// </summary>
     public void UnlinkNext()
     {
-        nextTile.GetComponent<LinkTiles>().previousTile = null;
+        LinkTiles linked = nextTile.GetComponent<LinkTiles>();
+
+        if (linked.nextTile == null) nextTile.GetComponent<TileScore>().scoreMultiplier = 1f;
+
+        linked.previousTile = null;
         nextTile = null;
     }
 
@@ -55,6 +61,10 @@ public class LinkTiles : MonoBehaviour
     /// </summary>
     public void UnlinkPrevious()
     {
+        LinkTiles linked = previousTile.GetComponent<LinkTiles>();
+
+        if (linked.previousTile == null) previousTile.GetComponent<TileScore>().scoreMultiplier = 1f;
+
         previousTile.GetComponent<LinkTiles>().nextTile = null;
         previousTile = null;
     }

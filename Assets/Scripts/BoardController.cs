@@ -177,7 +177,7 @@ public class BoardController : MonoBehaviour
             if (tile == null) continue;
 
             // Multi-row destroy tile
-            if (random.NextDouble() > 0.99)
+            if (random.NextDouble() > 0.95)
             {
                 MultiDestroyTile(tile);
                 return;

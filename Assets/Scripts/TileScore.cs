@@ -4,11 +4,5 @@ using UnityEngine;
 
 public class TileScore : MonoBehaviour
 {
-    public float scoreMultiplier { get; set; }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        scoreMultiplier = 1;
-    }
+    public float scoreMultiplier = 1;
 }

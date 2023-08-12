@@ -13,6 +13,7 @@ public class TileColor : MonoBehaviour
         AddColors();
     }
 
+    // Create random colors and add them to the colors array
     private void AddColors()
     {
         colors = new Color[COLOR_COUNT];
