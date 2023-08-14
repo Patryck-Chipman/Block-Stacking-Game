@@ -8,7 +8,12 @@ public class LevelProgressBar : MonoBehaviour
 {
     // TODO:
 
-    public Image mask;
+    [SerializeField]
+    private Image _mask;
+    [SerializeField]
+    private LevelPercentageLabel _percentLabel;
+    [SerializeField]
+    private LevelLabel _levelLabel;
 
     private IEnumerator coroutine;
     private int _min = 0;
@@ -18,6 +23,7 @@ public class LevelProgressBar : MonoBehaviour
     {
         _min = 0;
         _max = 300;
+        _percentLabel.DisplayPercentage(0);
     }
 
     /// <summary>
@@ -36,25 +42,28 @@ public class LevelProgressBar : MonoBehaviour
 
         coroutine = Fill(fillAmount);
         StartCoroutine(Fill(fillAmount));
+
+        _percentLabel.DisplayPercentage(fillAmount * 100);
     }
 
     // Bring the progress bar back to 0
     private void ResetBar()
     {
+        _levelLabel.IncreaseLevel();
         _min = _max;
         _max = PlayerPrefs.GetInt("ScoreIncreaseThreshold");
         CalculateFillPercent(PlayerPrefs.GetInt("Score"));
-        mask.fillAmount = 0;
+        _mask.fillAmount = 0;
     }
 
     // Gradually fill the progress bar
     IEnumerator Fill(float fillAmount)
     {
-        if (fillAmount < mask.fillAmount) yield return null;
+        if (fillAmount < _mask.fillAmount) yield return null;
 
-        while (mask.fillAmount < fillAmount)
+        while (_mask.fillAmount < fillAmount)
         {
-            mask.fillAmount += 0.01f;
+            _mask.fillAmount += 0.01f;
             yield return new WaitForSeconds(0.05f);
         }
 
