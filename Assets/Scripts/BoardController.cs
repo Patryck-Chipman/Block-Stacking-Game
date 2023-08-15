@@ -176,12 +176,39 @@ public class BoardController : MonoBehaviour
 
             if (tile == null) continue;
 
+            if (random.NextDouble() < 0.98)
+            {
+                IncreaseScoreTile(tile, 2);
+                return;
+            }
+
             // Multi-row destroy tile
             if (random.NextDouble() > 0.95)
             {
                 MultiDestroyTile(tile);
                 return;
             }
+        }
+    }
+
+    private void IncreaseScoreTile(GameObject tile, float scoreMultiplier)
+    {
+        GameObject orginTile = tile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<IncreaseScoreTile>();
+            tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
+            tile = tile.GetComponent<LinkTiles>().nextTile;
+        }
+
+        tile = orginTile.GetComponent<LinkTiles>().previousTile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<IncreaseScoreTile>();
+            tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
+            tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
 

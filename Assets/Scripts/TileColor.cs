@@ -23,7 +23,7 @@ public class TileColor : MonoBehaviour
             System.Random random = new System.Random();
             float r = (float)random.NextDouble();
             float g = (float)random.NextDouble();
-            float b = (float)random.NextDouble();
+            float b = (float)random.Next(5) / 10;
 
             colors[index] = new Color(r, g, b);
         }

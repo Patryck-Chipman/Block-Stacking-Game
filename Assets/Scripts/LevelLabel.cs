@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +21,7 @@ public class LevelLabel : MonoBehaviour
         DisplayLevel();
     }
 
+    // Change the level text to the new level
     private void DisplayLevel()
     {
         GetComponent<TextMeshProUGUI>().text = _level.ToString();
