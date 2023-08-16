@@ -4,40 +4,49 @@ using UnityEngine;
 
 public class IncreaseScoreTile : MonoBehaviour
 {
-    // TODO: Figure out why tiles automatically choose one color (0.5 0.5, 0.5)
+    private float _originalB = -1;
+    private float _newB;
 
-    private Color _color;
-    private Color _fadeToColor;
-
+    /// <summary>
+    /// Method <c>ChangeScoreMultiplier</c> adjusts the score multiplier for this tile
+    /// </summary>
+    /// <param name="scoreMultiplier"></param> the new score multiplier
     public void ChangeScoreMultiplier(float scoreMultiplier)
     {
         GetComponent<TileScore>().scoreMultiplier = scoreMultiplier;
-        _color = GetComponent<SpriteRenderer>().color;
-
-        _fadeToColor = _color;
-        _fadeToColor.b += 0.5f;
 
         StartCoroutine(ChangeColor());
     }
 
+    // Rotate between two colors
     private IEnumerator ChangeColor()
     {
-        Color currentColor = _color;
+        yield return new WaitForSeconds(0.2f);
 
-        while (currentColor.b <= _fadeToColor.b)
+        float r = GetComponent<SpriteRenderer>().color.r;
+        float g = GetComponent<SpriteRenderer>().color.g;
+        float b = GetComponent<SpriteRenderer>().color.b;
+
+        if (_originalB < 0)
         {
-            currentColor.b += 0.05f;
-            GetComponent<SpriteRenderer>().color = currentColor;
+             _originalB = b;
+             _newB = b + 0.5f;
+        }
+
+        while (GetComponent<SpriteRenderer>().color.b <= _newB)
+        {
+            b += 0.05f;
+            GetComponent<SpriteRenderer>().color = new Color(r, g, b, 1);
             yield return new WaitForSeconds(0.1f);
         }
 
-        while (currentColor.b >= _color.b)
+        while (GetComponent<SpriteRenderer>().color.b >= _originalB)
         {
-            currentColor.b -= 0.05f;
-            GetComponent<SpriteRenderer>().color = currentColor;
+            b -= 0.05f;
+            GetComponent<SpriteRenderer>().color = new Color(r, g, b, 1);
             yield return new WaitForSeconds(0.1f);
         }
 
-        //StartCoroutine(ChangeColor());
+        StartCoroutine(ChangeColor());
     }
 }
