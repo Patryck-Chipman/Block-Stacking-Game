@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Text : MonoBehaviour
 {
     [SerializeField] float quotient;

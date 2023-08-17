@@ -10,7 +10,7 @@ public class Score : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.SetInt("BaseScore", 7);
+        PlayerPrefs.SetInt("BaseScore", 8);
         PlayerPrefs.SetInt("Score", 0);
         PlayerPrefs.SetInt("ScoreIncreaseThreshold", 300);
         DisplayScore();
@@ -48,7 +48,7 @@ public class Score : MonoBehaviour
 
         if (score >= PlayerPrefs.GetInt("ScoreIncreaseThreshold"))
         {
-            PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.2f));
+            PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.5f));
             PlayerPrefs.SetInt("ScoreIncreaseThreshold", PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2);
         }
 

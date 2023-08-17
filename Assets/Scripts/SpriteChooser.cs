@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SpriteChooser : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite[] _sprites;
+    public Sprite[] sprites;
 
     private LinkTiles _linked;
     private GameObject _nextTile;
@@ -26,10 +25,10 @@ public class SpriteChooser : MonoBehaviour
 
     private Sprite PickSprite()
     {
-        if (_nextTile != null && _previousTile != null) return _sprites[0];
-        if (_nextTile != null) return _sprites[1];
-        if (_previousTile != null) return _sprites[2];
-        return _sprites[3];
+        if (_nextTile != null && _previousTile != null) return sprites[0];
+        if (_nextTile != null) return sprites[1];
+        if (_previousTile != null) return sprites[2];
+        return sprites[3];
     }
 
     private Color PickColor()

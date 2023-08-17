@@ -176,16 +176,23 @@ public class BoardController : MonoBehaviour
 
             if (tile == null) continue;
 
-            if (random.NextDouble() < 0.98)
-            {
-                IncreaseScoreTile(tile, 2);
-                return;
-            }
-
             // Multi-row destroy tile
             if (random.NextDouble() > 0.95)
             {
                 MultiDestroyTile(tile);
+                return;
+            }
+
+            if (random.NextDouble() > 0.93)
+            {
+                UnLinkAboveAndBelowTile(tile);
+                return;
+            }
+
+            // Double score tile
+            if (random.NextDouble() > 0.90)
+            {
+                IncreaseScoreTile(tile, 2.5f);
                 return;
             }
         }
@@ -228,6 +235,25 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<MultiDestroyTile>();
+            tile = tile.GetComponent<LinkTiles>().previousTile;
+        }
+    }
+
+    private void UnLinkAboveAndBelowTile(GameObject tile)
+    {
+        GameObject orginTile = tile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<UnlinkTilesAboveAndBelow>();
+            tile = tile.GetComponent<LinkTiles>().nextTile;
+        }
+
+        tile = orginTile.GetComponent<LinkTiles>().previousTile;
+
+        while (tile != null)
+        {
+            tile.AddComponent<UnlinkTilesAboveAndBelow>();
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
@@ -375,8 +401,11 @@ public class BoardController : MonoBehaviour
 
             if (!locations[row][column]) continue;
 
-            if (tileObjects[row][column].TryGetComponent<MultiDestroyTile>(out MultiDestroyTile tile))
+            if (tileObjects[row][column].TryGetComponent<MultiDestroyTile>(out MultiDestroyTile _))
                 destroyAboveAndBelow = true;
+
+            if (tileObjects[row][column].TryGetComponent<UnlinkTilesAboveAndBelow>(out UnlinkTilesAboveAndBelow tile))
+                tile.UnlinkTiles(row, column);
 
             locations[row][column] = false;
             Destroy(tileObjects[row][column]);
