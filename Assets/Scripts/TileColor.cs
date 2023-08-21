@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TileColor : MonoBehaviour
 {
+    /// <summary>
+    /// Field <c>colors</c> is a list of the available colors each object can choose from
+    /// </summary>
     public Color[] colors { get; private set; }
 
     private const int COLOR_COUNT = 5;

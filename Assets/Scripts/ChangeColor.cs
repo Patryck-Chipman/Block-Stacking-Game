@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChangeColor : MonoBehaviour
 {
-    private float _originalB;
+    private float _originalB = -1;
     private float _newB;
 
     // Start is called before the first frame update
