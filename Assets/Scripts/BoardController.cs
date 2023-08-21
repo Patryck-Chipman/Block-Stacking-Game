@@ -6,11 +6,18 @@ using UnityEngine.UIElements;
 
 public class BoardController : MonoBehaviour
 {
+    /// <summary>
+    /// Field <c>locations</c> is the boolean array of rows and columns (true: occupied)
+    /// </summary>
+    public bool[][] locations;
+    /// <summary>
+    /// Field <c>tileObjects</c> is the GameObject array of rows cand columns
+    /// </summary>
+    public GameObject[][] tileObjects;
+
     [SerializeField] private GameObject[] _moveTiles;
     [SerializeField] private Score _scoreboard;
-
-    public bool[][] locations { get; set; }
-    public GameObject[][] tileObjects { get; set; }
+    [SerializeField] private FuelBar _fuelBar;
 
     // Constants
     private const int ROW_COUNT = 11;
@@ -46,6 +53,7 @@ public class BoardController : MonoBehaviour
         {
             PlayerPrefs.SetInt("Moved", 0);
             StartCoroutine(Fall(true));
+            _fuelBar.IncreaseFuel(500);
         }
     }
 
@@ -198,6 +206,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    // Change tiles to increased score tiles
     private void IncreaseScoreTile(GameObject tile, float scoreMultiplier)
     {
         GameObject orginTile = tile;
@@ -205,6 +214,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<IncreaseScoreTile>();
+            tile.AddComponent<ChangeColor>();
             tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
@@ -214,6 +224,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<IncreaseScoreTile>();
+            tile.AddComponent<ChangeColor>();
             tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
@@ -227,6 +238,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<MultiDestroyTile>();
+            tile.AddComponent<ChangeColor>();
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
 
@@ -235,10 +247,12 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<MultiDestroyTile>();
+            tile.AddComponent<ChangeColor>();
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
 
+    // Convert tiles to a tile which unlinks tiles above and below it
     private void UnLinkAboveAndBelowTile(GameObject tile)
     {
         GameObject orginTile = tile;
@@ -246,6 +260,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<UnlinkTilesAboveAndBelow>();
+            tile.AddComponent<ChangeColor>();
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
 
@@ -254,6 +269,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<UnlinkTilesAboveAndBelow>();
+            tile.AddComponent<ChangeColor>();
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
@@ -413,6 +429,8 @@ public class BoardController : MonoBehaviour
         }
 
         _scoreboard.AddScore(totalScore);
+
+        _fuelBar.IncreaseFuel(1000);
 
         if (destroyAboveAndBelow) DestroyRow(row + 1);
     }

@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class MoveTile : MonoBehaviour
 {
-    //TODO
-
+    /// <summary>
+    /// Field <c>follow</c> is whether the object is following the mouse
+    /// </summary>
     public bool follow { get; private set; }
+    /// <summary>
+    /// Field <c>lastPosition</c> is the last position the tile was before being picked up
+    /// </summary>
     public Vector2 lastPosition { get; private set; }
+    /// <summary>
+    /// Field <c>distance</c> is how far from the epicenter (mouse position) this tile should be
+    /// </summary>
     public int distance { get; private set; }
 
     private Vector2 _position;

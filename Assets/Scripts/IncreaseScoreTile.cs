@@ -12,6 +12,5 @@ public class IncreaseScoreTile : MonoBehaviour
     public void ChangeScoreMultiplier(float scoreMultiplier)
     {
         GetComponent<TileScore>().scoreMultiplier *= scoreMultiplier;
-        this.AddComponent<ChangeColor>();
     }
 }

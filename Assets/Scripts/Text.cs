@@ -6,12 +6,12 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Text : MonoBehaviour
 {
-    [SerializeField] float quotient;
+    [SerializeField] private float _quotient;
 
     // Start is called before the first frame update
     void Start()
     {
-        float textSize = Screen.currentResolution.width / quotient;
+        float textSize = Screen.currentResolution.width / _quotient;
         GetComponent<TextMeshProUGUI>().fontSize = textSize;
     }
 }

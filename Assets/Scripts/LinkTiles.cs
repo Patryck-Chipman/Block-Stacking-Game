@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class LinkTiles : MonoBehaviour
 {
-    //[HideInInspector]
+    /// <summary>
+    /// Field <c>previousTile</c> is a reference to the tile preceding this one (linked only)
+    /// </summary>
     public GameObject previousTile { get; private set; }
+    /// <summary>
+    /// Field <c>nextTile</c> is a refernce to the tile follwoing this one (linked only)
+    /// </summary>
     public GameObject nextTile { get; private set; }
+    /// <summary>
+    /// Field <c>linked</c> is whether this tile is linked
+    /// </summary>
     public bool linked { get; set; }
 
     /// <summary>

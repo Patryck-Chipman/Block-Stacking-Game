@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SpriteChooser : MonoBehaviour
 {
+    /// <summary>
+    /// Field <c>sprites</c> is the list of all sprites the object can pick from
+    /// </summary>
     public Sprite[] sprites;
 
     private LinkTiles _linked;

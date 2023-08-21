@@ -49,7 +49,7 @@ public class Score : MonoBehaviour
         if (score >= PlayerPrefs.GetInt("ScoreIncreaseThreshold"))
         {
             PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.5f));
-            PlayerPrefs.SetInt("ScoreIncreaseThreshold", PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2);
+            PlayerPrefs.SetInt("ScoreIncreaseThreshold", (int)(PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2.5f));
         }
 
         if (score > PlayerPrefs.GetInt("High Score"))

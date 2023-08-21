@@ -6,12 +6,8 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class LevelProgressBar : MonoBehaviour
 {
-    // TODO:
-
     [SerializeField]
     private Image _mask;
-    [SerializeField]
-    private LevelPercentageLabel _percentLabel;
     [SerializeField]
     private LevelLabel _levelLabel;
 
@@ -23,7 +19,7 @@ public class LevelProgressBar : MonoBehaviour
     {
         _min = 0;
         _max = 300;
-        _percentLabel.DisplayPercentage(0);
+        //_percentLabel.DisplayPercentage(0);
     }
 
     /// <summary>
@@ -42,8 +38,6 @@ public class LevelProgressBar : MonoBehaviour
 
         coroutine = Fill(fillAmount);
         StartCoroutine(Fill(fillAmount));
-
-        _percentLabel.DisplayPercentage(fillAmount * 100);
     }
 
     // Bring the progress bar back to 0
