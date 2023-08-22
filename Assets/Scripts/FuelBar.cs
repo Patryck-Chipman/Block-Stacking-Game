@@ -8,7 +8,7 @@ public class FuelBar : MonoBehaviour
     [SerializeField]
     private Image _mask;
 
-    private const float MAX_FUEL = 1200; // Twenty seconds worth of fuel
+    private const float MAX_FUEL = 600; // Roughly ten seconds worth of fuel
     private float _fuel;
 
     // Start is called before the first frame update

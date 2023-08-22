@@ -18,7 +18,7 @@ public class LevelProgressBar : MonoBehaviour
     private void Start()
     {
         _min = 0;
-        _max = 300;
+        _max = 1000;
         //_percentLabel.DisplayPercentage(0);
     }
 

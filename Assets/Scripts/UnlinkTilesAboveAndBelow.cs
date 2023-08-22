@@ -5,6 +5,8 @@ using UnityEngine;
 public class UnlinkTilesAboveAndBelow : MonoBehaviour
 {
     private GameObject[][] _tileObjects;
+    private GameObject _nextTile;
+    private GameObject _previousTile;
 
     /// <summary>
     /// Method <c>UnlinkTiles</c> causes the tiles above and below to be unlinked
@@ -19,8 +21,10 @@ public class UnlinkTilesAboveAndBelow : MonoBehaviour
         try
         {
             GameObject tileAbove = _tileObjects[row + 1][column];
+            SetNextAndPreviousTiles(tileAbove);
             tileAbove.GetComponent<LinkTiles>().Unlink();
-            tileAbove.GetComponent<SpriteRenderer>().sprite = tileAbove.GetComponent<SpriteChooser>().sprites[3];
+            ChangeNextAndPreviousSprites();
+            tileAbove.GetComponent<SpriteRenderer>().sprite = tileAbove.GetComponent<SpriteChooser>().PickSprite();
         }
         catch (System.Exception ex) { }
 
@@ -28,8 +32,33 @@ public class UnlinkTilesAboveAndBelow : MonoBehaviour
         try
         {
             GameObject tileBelow = _tileObjects[row - 1][column];
+            SetNextAndPreviousTiles(tileBelow);
             tileBelow.GetComponent<LinkTiles>().Unlink();
-            tileBelow.GetComponent<SpriteRenderer>().sprite = tileBelow.GetComponent<SpriteChooser>().sprites[3];
+            ChangeNextAndPreviousSprites();
+            tileBelow.GetComponent<SpriteRenderer>().sprite = tileBelow.GetComponent<SpriteChooser>().PickSprite();
+        }
+        catch (System.Exception ex) { }
+    }
+
+    private void SetNextAndPreviousTiles(GameObject currentTile)
+    {
+        _nextTile = currentTile.GetComponent<LinkTiles>().nextTile;
+        _previousTile = currentTile.GetComponent<LinkTiles>().previousTile;
+    }
+
+    private void ChangeNextAndPreviousSprites()
+    {
+        // Next tile
+        try
+        {
+            _nextTile.GetComponent<SpriteRenderer>().sprite = _nextTile.GetComponent<SpriteChooser>().PickSprite();
+        }
+        catch (System.Exception ex) { }
+
+        // Previous tile
+        try
+        {
+            _previousTile.GetComponent<SpriteRenderer>().sprite = _previousTile.GetComponent<SpriteChooser>().PickSprite();
         }
         catch (System.Exception ex) { }
     }

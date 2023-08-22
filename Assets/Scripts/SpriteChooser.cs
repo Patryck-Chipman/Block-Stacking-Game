@@ -18,25 +18,14 @@ public class SpriteChooser : MonoBehaviour
 
     void Start()
     {
-        _linked = GetComponent<LinkTiles>();
-        _nextTile = _linked.nextTile;
-        _previousTile = _linked.previousTile;
-
         GetComponent<SpriteRenderer>().sprite = PickSprite();
         GetComponent<SpriteRenderer>().color = PickColor();
-    }
-
-    private Sprite PickSprite()
-    {
-        if (_nextTile != null && _previousTile != null) return sprites[0];
-        if (_nextTile != null) return sprites[1];
-        if (_previousTile != null) return sprites[2];
-        return sprites[3];
     }
 
     private Color PickColor()
     {
         _colors = Camera.main.GetComponent<TileColor>();
+        UpdateVariables();
 
         if (_previousTile == null)
         {
@@ -45,5 +34,26 @@ public class SpriteChooser : MonoBehaviour
         }
 
         return _previousTile.GetComponent<SpriteRenderer>().color;
+    }
+
+    private void UpdateVariables()
+    {
+        _linked = GetComponent<LinkTiles>();
+        _nextTile = _linked.nextTile;
+        _previousTile = _linked.previousTile;
+    }
+
+    /// <summary>
+    /// Method <c>PickSprite</c> chooses the proper sprite based on linkage
+    /// </summary>
+    /// <returns>The sprite that should be applied</returns>
+    public Sprite PickSprite()
+    {
+        UpdateVariables();
+
+        if (_nextTile != null && _previousTile != null) return sprites[0];
+        if (_nextTile != null) return sprites[1];
+        if (_previousTile != null) return sprites[2];
+        return sprites[3];
     }
 }
