@@ -6,11 +6,24 @@ public class ChangeColor : MonoBehaviour
 {
     private float _originalB = -1;
     private float _newB;
+    private IEnumerator _coroutine;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(RotateColor());
+        _coroutine = RotateColor();
+        StartCoroutine(_coroutine);
+    }
+
+    /// <summary>
+    /// Method <c>FadeToGray</c> changes the color of the tile to gray
+    /// </summary>
+    public void ChangeToGray()
+    {
+        StopCoroutine(_coroutine);
+
+        _coroutine = FadeToGray();
+        StartCoroutine(_coroutine);
     }
 
     // Rotate between two colors
@@ -42,6 +55,13 @@ public class ChangeColor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        StartCoroutine(RotateColor());
+        StartCoroutine(_coroutine);
+    }
+
+    private IEnumerator FadeToGray()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        GetComponent<SpriteRenderer>().color = Color.gray;
     }
 }

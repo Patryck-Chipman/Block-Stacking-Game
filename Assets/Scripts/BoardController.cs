@@ -18,6 +18,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] private GameObject[] _moveTiles;
     [SerializeField] private Score _scoreboard;
     [SerializeField] private FuelBar _fuelBar;
+    [SerializeField] private GameOver _gameOver;
 
     // Constants
     private const int ROW_COUNT = 11;
@@ -26,6 +27,8 @@ public class BoardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
+
         PlayerPrefs.SetInt("Moved", 0);
         PlayerPrefs.SetInt("IsMoving", 0);
 
@@ -53,6 +56,7 @@ public class BoardController : MonoBehaviour
         {
             PlayerPrefs.SetInt("Moved", 0);
             StartCoroutine(Fall(true));
+            if (locations[ROW_COUNT - 1].Contains(true)) _gameOver.StopGame();
             _fuelBar.IncreaseFuel(500);
         }
     }

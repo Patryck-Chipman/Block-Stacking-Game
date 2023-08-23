@@ -7,6 +7,8 @@ public class FuelBar : MonoBehaviour
 {
     [SerializeField]
     private Image _mask;
+    [SerializeField]
+    private GameOver _gameOver;
 
     private const float MAX_FUEL = 600; // Roughly ten seconds worth of fuel
     private float _fuel;
@@ -21,6 +23,7 @@ public class FuelBar : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (_fuel == 0) _gameOver.StopGame();
         if (_fuel > MAX_FUEL) _fuel = MAX_FUEL;
         if (_fuel < 0) _fuel = 0;
 
