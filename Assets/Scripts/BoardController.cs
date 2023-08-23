@@ -191,7 +191,7 @@ public class BoardController : MonoBehaviour
                 return;
             }
 
-            if (random.NextDouble() < 0.98)
+            if (random.NextDouble() > 0.98)
             {
                 UnLinkAboveAndBelowTile(tile);
                 return;

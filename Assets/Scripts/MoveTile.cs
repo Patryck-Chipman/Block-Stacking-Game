@@ -128,13 +128,14 @@ public class MoveTile : MonoBehaviour
     // Return whether the designated move is valid
     private bool ValidMove()
     {
-
         GameObject tile = this.gameObject;
         BoardController boardControl = Camera.main.GetComponent<BoardController>();
         Vector2 newPosition = MakePosition();
         int column = Mathf.RoundToInt(newPosition.x);
         int originalColumn = column;
         int row = Mathf.RoundToInt(newPosition.y);
+
+        if (SamePosition()) return false;
 
         // Check rows at right tiles
         while (tile != null)
@@ -146,7 +147,6 @@ public class MoveTile : MonoBehaviour
                 return false;
             }
             tile = tile.GetComponent<LinkTiles>().nextTile;
-            //SetOldValues(row, column);
             column++;
         }
 
@@ -163,7 +163,6 @@ public class MoveTile : MonoBehaviour
                 return false;
             }
             tile = tile.GetComponent<LinkTiles>().previousTile;
-            //SetOldValues(row, column);
             column--;
         }
 
@@ -230,6 +229,13 @@ public class MoveTile : MonoBehaviour
             moveTile.Move(newPosition);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
+    }
+
+    private bool SamePosition()
+    {
+        if (Mathf.RoundToInt(transform.position.x) == Mathf.RoundToInt(lastPosition.x)) return true;
+
+        return false;
     }
 
     // Make all tiles connected to this one follow the mouse
