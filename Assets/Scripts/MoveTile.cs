@@ -139,30 +139,42 @@ public class MoveTile : MonoBehaviour
         // Check rows at right tiles
         while (tile != null)
         {
-            if (boardControl.locations[row][column]) return false;
-            tile = tile.GetComponent<LinkTiles>().nextTile;
             SetOldValues(row, column);
+            if (boardControl.locations[row][column])
+            {
+                Debug.Log("Case 1: Move is invalid at - " + row + " " + column);
+                return false;
+            }
+            tile = tile.GetComponent<LinkTiles>().nextTile;
+            //SetOldValues(row, column);
             column++;
         }
 
-        tile = this.gameObject;
-        column = originalColumn;
+        tile = this.gameObject.GetComponent<LinkTiles>().previousTile;
+        column = originalColumn - 1;
 
         // Check rows at left tiles
         while (tile != null)
         {
-            if (boardControl.locations[row][column]) return false;
-            tile = tile.GetComponent<LinkTiles>().previousTile;
             SetOldValues(row, column);
+            if (boardControl.locations[row][column])
+            {
+                Debug.Log("Case 2: Move is invalid at - " + row + " " + column);
+                return false;
+            }
+            tile = tile.GetComponent<LinkTiles>().previousTile;
+            //SetOldValues(row, column);
             column--;
         }
 
+        Debug.Log("Case 3: Move is valid");
         return true;
     }
 
     // Move this tile as well as the ones connected to it
     public void MoveAll(bool back, int row)
     {
+        BoardController boardControl = Camera.main.GetComponent<BoardController>();
         GameObject tile = this.gameObject;
         MoveTile moveTile;
         Vector2 newPosition;
@@ -173,7 +185,13 @@ public class MoveTile : MonoBehaviour
             moveTile = tile.GetComponent<MoveTile>();
 
             if (back)
+            {
                 newPosition = moveTile.lastPosition;
+
+                int column = Mathf.RoundToInt(newPosition.x);
+                boardControl.locations[row][column] = true;
+                boardControl.tileObjects[row][column] = tile;
+            }
             else
                 newPosition = moveTile.MakePosition();
 
@@ -194,7 +212,13 @@ public class MoveTile : MonoBehaviour
             moveTile = tile.GetComponent<MoveTile>();
 
             if (back)
+            {
                 newPosition = moveTile.lastPosition;
+
+                int column = Mathf.RoundToInt(newPosition.x);
+                boardControl.locations[row][column] = true;
+                boardControl.tileObjects[row][column] = tile;
+            }
             else
                 newPosition = moveTile.MakePosition();
 
@@ -220,11 +244,10 @@ public class MoveTile : MonoBehaviour
             tile.GetComponent<MoveTile>().Follow(newDistance);
             tile = tile.GetComponent<LinkTiles>().nextTile;
             newDistance++;
-            Debug.Log(newDistance);
         }
 
-        tile = this.gameObject;
-        newDistance = distance;
+        tile = this.gameObject.GetComponent<LinkTiles>().previousTile;
+        newDistance = distance - 1;
 
         // Make tiles to the left follow
         while (tile != null)
