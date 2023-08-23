@@ -70,8 +70,6 @@ public class MoveTile : MonoBehaviour
         _moving = true;
         _newPosition = newPosition;
 
-        Debug.Log(newPosition.y + " " + transform.position.y);
-
         // Floats are weird man
         if (newPosition.y == Mathf.RoundToInt(transform.position.y))
         {

@@ -1456,6 +1456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318705b0938fc4944a48e84cbcbf92f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 1374901081}
+  _fuelBar: {fileID: 1252994506}
 --- !u!4 &1032567316
 Transform:
   m_ObjectHideFlags: 0
@@ -1775,6 +1777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 440314488}
   _gameOver: {fileID: 1032567315}
+  canEmpty: 0
 --- !u!1 &1374901076
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,7 +56,6 @@ public class BoardController : MonoBehaviour
         {
             PlayerPrefs.SetInt("Moved", 0);
             StartCoroutine(Fall(true));
-            if (locations[ROW_COUNT - 1].Contains(true)) _gameOver.StopGame();
             _fuelBar.IncreaseFuel(500);
         }
     }
@@ -218,7 +217,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<IncreaseScoreTile>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
@@ -228,7 +227,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<IncreaseScoreTile>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
@@ -242,7 +241,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<MultiDestroyTile>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
 
@@ -251,7 +250,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<MultiDestroyTile>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
@@ -264,7 +263,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<UnlinkTilesAboveAndBelow>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
 
@@ -273,7 +272,7 @@ public class BoardController : MonoBehaviour
         while (tile != null)
         {
             tile.AddComponent<UnlinkTilesAboveAndBelow>();
-            tile.AddComponent<ChangeColor>();
+            tile.GetComponent<ChangeColor>().Rotate();
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
@@ -467,6 +466,7 @@ public class BoardController : MonoBehaviour
             StartCoroutine(Fall(false));
         }
 
+        if (locations[ROW_COUNT - 1].Contains(true)) _gameOver.StopGame();
     }
 
     /// <summary>

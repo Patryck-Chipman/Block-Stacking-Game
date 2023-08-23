@@ -9,20 +9,34 @@ public class ChangeColor : MonoBehaviour
     private IEnumerator _coroutine;
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         _coroutine = RotateColor();
         StartCoroutine(_coroutine);
-    }
+    }*/
 
     /// <summary>
     /// Method <c>FadeToGray</c> changes the color of the tile to gray
     /// </summary>
     public void ChangeToGray()
     {
-        StopCoroutine(_coroutine);
+        Debug.Log("Fading");
+        try
+        {
+            StopCoroutine(_coroutine);
+        }
+        catch (System.Exception ex) { }
 
         _coroutine = FadeToGray();
+        StartCoroutine(_coroutine);
+    }
+
+    /// <summary>
+    /// Method <c>Rotate</c> rotates the tiles color in a pulsating manor
+    /// </summary>
+    public void Rotate()
+    {
+        _coroutine = RotateColor();
         StartCoroutine(_coroutine);
     }
 
@@ -55,9 +69,11 @@ public class ChangeColor : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        _coroutine = RotateColor();
         StartCoroutine(_coroutine);
     }
 
+    // Change the tile to gray
     private IEnumerator FadeToGray()
     {
         yield return new WaitForSeconds(0.2f);
