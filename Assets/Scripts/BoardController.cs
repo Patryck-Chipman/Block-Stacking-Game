@@ -30,7 +30,6 @@ public class BoardController : MonoBehaviour
         Time.timeScale = 1;
 
         PlayerPrefs.SetInt("Moved", 0);
-        PlayerPrefs.SetInt("IsMoving", 0);
 
         locations = new bool[ROW_COUNT][];
         tileObjects = new GameObject[ROW_COUNT][];

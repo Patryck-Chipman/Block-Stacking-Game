@@ -40,7 +40,7 @@ public class MoveTile : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Moved") == 1)
                 PlayerPrefs.SetInt("Moved", 2);
-            PlayerPrefs.SetInt("IsMoving", 0);
+            //PlayerPrefs.SetInt("IsMoving", 0);
             GetComponent<SpriteRenderer>().sortingOrder = 2;
             _moving = false;
         }
@@ -99,7 +99,7 @@ public class MoveTile : MonoBehaviour
             return;
         }
 
-        if (PlayerPrefs.GetInt("IsMoving") != 0) return;
+        if (PlayerPrefs.GetInt("IsMoving") == 1) return;
 
         PlayerPrefs.SetInt("IsMoving", 1);
         MakeAllFollow();
@@ -229,6 +229,8 @@ public class MoveTile : MonoBehaviour
             moveTile.Move(newPosition);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
+
+        PlayerPrefs.SetInt("IsMoving", 0);
     }
 
     private bool SamePosition()

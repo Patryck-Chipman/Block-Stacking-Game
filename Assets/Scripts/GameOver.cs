@@ -8,6 +8,7 @@ public class GameOver : MonoBehaviour
 {
     [SerializeField] private BoardController _controller;
     [SerializeField] private GameObject _gameOverUI;
+    [SerializeField] private ResetLevel _gameGoingReset;
 
     private GameObject[][] _tileObjects;
     private IEnumerator _coroutine;
@@ -29,6 +30,7 @@ public class GameOver : MonoBehaviour
         _coroutine = MakeTilesGray();
         StartCoroutine(_coroutine);
         _gameOverUI.gameObject.SetActive(true);
+        _gameGoingReset.gameObject.SetActive(false);
     }
 
     private IEnumerator MakeTilesGray()
