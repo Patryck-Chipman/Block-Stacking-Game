@@ -46,7 +46,7 @@ public class BoardController : MonoBehaviour
             MoveRowsUp(ROW_COUNT - 1);
         }
 
-        StartCoroutine(Fall(false));
+        StartCoroutine(Fall(true));
     }
 
     // Update is called once per frame

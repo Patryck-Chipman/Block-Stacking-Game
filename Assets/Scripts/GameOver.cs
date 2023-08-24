@@ -19,6 +19,9 @@ public class GameOver : MonoBehaviour
         _gameOverUI.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Method <c>StopGame</c> pauses the game and displays the game over menu
+    /// </summary>
     public void StopGame()
     {
         PlayerPrefs.SetInt("Game Over", 1);
