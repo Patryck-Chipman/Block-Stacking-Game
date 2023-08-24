@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private BoardController _controller;
+    [SerializeField] private GameObject _gameOverUI;
 
     private GameObject[][] _tileObjects;
     private IEnumerator _coroutine;
@@ -13,6 +15,8 @@ public class GameOver : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.SetInt("Game Over", 0);
+
+        _gameOverUI.gameObject.SetActive(false);
     }
 
     public void StopGame()
@@ -21,6 +25,7 @@ public class GameOver : MonoBehaviour
         _tileObjects = _controller.tileObjects;
         _coroutine = MakeTilesGray();
         StartCoroutine(_coroutine);
+        _gameOverUI.gameObject.SetActive(true);
     }
 
     private IEnumerator MakeTilesGray()
