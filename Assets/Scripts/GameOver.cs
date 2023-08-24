@@ -6,22 +6,19 @@ using UnityEngine;
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private BoardController _controller;
-    [SerializeField] private FuelBar _fuelBar;
 
     private GameObject[][] _tileObjects;
     private IEnumerator _coroutine;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        PlayerPrefs.SetInt("Game Over", 0);
     }
 
     public void StopGame()
     {
+        PlayerPrefs.SetInt("Game Over", 1);
         _tileObjects = _controller.tileObjects;
-        //Time.timeScale = 0;
-        _fuelBar.canEmpty = false;
         _coroutine = MakeTilesGray();
         StartCoroutine(_coroutine);
     }
@@ -31,15 +28,13 @@ public class GameOver : MonoBehaviour
         Debug.Log("Coroutine started");
         foreach (var row in _tileObjects.Reverse())
         {
-            //if (!row.Contains(gameObject)) continue;
-
             foreach (var tile in row)
             {
                 if (tile == null) continue;
 
                 FadeTile(tile);
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

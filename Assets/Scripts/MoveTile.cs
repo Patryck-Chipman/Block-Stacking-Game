@@ -83,6 +83,8 @@ public class MoveTile : MonoBehaviour
     // Detect mouse down events
     private void OnMouseDown()
     {
+        if (PlayerPrefs.GetInt("Game Over") == 1) return;
+
         // Move everything to new position (or old position)
         if (follow)
         {
