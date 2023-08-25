@@ -19,6 +19,8 @@ public class BoardController : MonoBehaviour
     [SerializeField] private Score _scoreboard;
     [SerializeField] private FuelBar _fuelBar;
     [SerializeField] private GameOver _gameOver;
+    [SerializeField] private SoundPlayer _soundPlayer;
+    [SerializeField] private AudioClip _rowCompleteSound;
 
     // Constants
     private const int ROW_COUNT = 11;
@@ -30,7 +32,6 @@ public class BoardController : MonoBehaviour
         Time.timeScale = 1;
 
         PlayerPrefs.SetInt("Moved", 0);
-
         locations = new bool[ROW_COUNT][];
         tileObjects = new GameObject[ROW_COUNT][];
 
@@ -40,7 +41,7 @@ public class BoardController : MonoBehaviour
             tileObjects[i] = MakeEmptyTileObject();
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             MoveRowsUp(ROW_COUNT - 1);
         }
@@ -186,16 +187,12 @@ public class BoardController : MonoBehaviour
 
             if (tile == null) continue;
 
-            // Multi-row destroy tile
+            // Multi-row destroy tile or UnlinkTile
             if (random.NextDouble() > 0.99)
             {
-                MultiDestroyTile(tile);
-                return;
-            }
-
-            if (random.NextDouble() > 0.98)
-            {
-                UnLinkAboveAndBelowTile(tile);
+                if (random.NextDouble() > 0.5)
+                    MultiDestroyTile(tile);
+                else UnLinkAboveAndBelowTile(tile);
                 return;
             }
 
@@ -410,8 +407,9 @@ public class BoardController : MonoBehaviour
         if (row < 0 || row > ROW_COUNT) return;
 
         bool destroyAboveAndBelow = false;
-
         int totalScore = 0;
+
+        _soundPlayer.PlaySound(_rowCompleteSound);
 
         for (int column = 0; column < COLUMN_COUNT; column++)
         {

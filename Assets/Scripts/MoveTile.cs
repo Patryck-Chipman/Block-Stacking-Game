@@ -24,6 +24,7 @@ public class MoveTile : MonoBehaviour
 
     private void Start()
     {
+        PlayerPrefs.SetInt("IsMoving", 0);
         distance = 0;
     }
 
