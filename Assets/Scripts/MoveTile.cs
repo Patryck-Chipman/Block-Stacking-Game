@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MoveTile : MonoBehaviour
+public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     /// <summary>
     /// Field <c>follow</c> is whether the object is following the mouse
@@ -47,12 +48,13 @@ public class MoveTile : MonoBehaviour
         }
 
         // Have the object follow the mouse
-        if (follow)
+        /*if (follow)
         {
             Vector2 newPosition = GetMousePosition();
             newPosition.x += distance;
             transform.position = newPosition;
-        }
+            
+        }*/
     }
 
     // Begin moving process
@@ -82,7 +84,31 @@ public class MoveTile : MonoBehaviour
     }
 
     // Detect mouse down events
-    private void OnMouseDown()
+    /*private void OnMouseDown()
+    {
+        if (PlayerPrefs.GetInt("Game Over") == 1) return;
+
+        // Move everything to new position (or old position)
+        if (follow)
+        {
+            if (!ValidMove())
+            {
+                MoveAll(true, 0);
+                return;
+            }
+
+            PlayerPrefs.SetInt("Moved", 1);
+            MoveAll(false, 0);
+            return;
+        }
+
+        if (PlayerPrefs.GetInt("IsMoving") == 1) return;
+
+        PlayerPrefs.SetInt("IsMoving", 1);
+        MakeAllFollow();
+    }*/
+
+    public void OnPointerDown(PointerEventData data)
     {
         if (PlayerPrefs.GetInt("Game Over") == 1) return;
 
@@ -106,6 +132,17 @@ public class MoveTile : MonoBehaviour
         MakeAllFollow();
     }
 
+    public void OnDrag(PointerEventData data)
+    {
+        if (follow)
+        {
+            Vector2 newPosition = Camera.main.ScreenToWorldPoint(data.position);
+            newPosition.x += distance;
+            transform.position = newPosition;
+
+        }
+    }
+
     // Return rounded position
     private Vector2 MakePosition()
     {
@@ -117,13 +154,13 @@ public class MoveTile : MonoBehaviour
     }
 
     // Return mouse position but keep y as current y value
-    private Vector3 GetMousePosition()
+    /*private Vector3 GetMousePosition()
     {
         Vector2 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         mousePosition.y = transform.position.y;
         return mousePosition;
-    }
+    }*/
 
 
     // Return whether the designated move is valid
