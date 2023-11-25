@@ -60,7 +60,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Create a row of all false values for the locations array
+    /// <summary>
+    /// Method <c>MakeEmptyLocations</c> create a row of all false values for the locations array
+    /// </summary>
+    /// <returns></returns>
     private bool[] MakeEmptyLocations()
     {
         bool[] newLocationSet = new bool[COLUMN_COUNT];
@@ -71,7 +74,10 @@ public class BoardController : MonoBehaviour
         return newLocationSet;
     }
 
-    // Create a row of all null values for the tileObjects array
+    /// <summary>
+    /// Method <c>MakeEmptyTileObject</c> create a row of all null values for the tileObjects array
+    /// </summary>
+    /// <returns></returns>
     private GameObject[] MakeEmptyTileObject()
     {
         GameObject[] newTileSet = new GameObject[COLUMN_COUNT];
@@ -82,7 +88,10 @@ public class BoardController : MonoBehaviour
         return newTileSet;
     }
 
-    // Create the next (bottom) set of the array
+    /// <summary>
+    /// Method <c>MakeSet</c> creates the next bottom array
+    /// </summary>
+    /// <returns>the new set</returns>
     private bool[] MakeSet()
     {
         bool[] nextSet = new bool[COLUMN_COUNT];
@@ -96,7 +105,9 @@ public class BoardController : MonoBehaviour
         return nextSet;
     }
 
-    // Randomly choose whether or not to link the tiles on the bottom row
+    /// <summary>
+    /// Method <c>LinkBottomRow</c> randomly links tiles in the bottom row
+    /// </summary>
     private void LinkBottomRow()
     {
         int length = 0;
@@ -112,7 +123,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Instantiate the tiles based on their position in the array
+    /// <summary>
+    /// Method <c>DisplayTiles</c> instatiates tiles based on their position in the array
+    /// </summary>
+    /// <param name="set">bool[] of a row. true means a tile is there, false otherwise</param>
     private void DisplayTiles(bool[] set)
     {
         for (int column = 0; column < COLUMN_COUNT; column++)
@@ -127,7 +141,9 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Make some tiloe spaces empty (can overlap)
+    /// <summary>
+    /// Method <c>EmptyTiles</c> makes some tile spaces empty
+    /// </summary>
     private void EmptyTiles()
     {
         System.Random random = new System.Random();
@@ -149,7 +165,9 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Ensure no tiles are longer than 4 tiles
+    /// <summary>
+    /// Method <c>MakeProperLength</c> ensures that all tiles are the proper length (not longer than 4)
+    /// </summary>
     private void MakeProperLength()
     {
         int length = 0;
@@ -176,7 +194,9 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Create powerUp tiles
+    /// <summary>
+    /// Method <c>MakePowerTiles</c> converts some tiles into powerful tiles
+    /// </summary>
     private void MakePowerTiles()
     {
         System.Random random = new System.Random();
@@ -205,7 +225,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Change tiles to increased score tiles
+    /// <summary>
+    /// Method <c>IncreaseScoreTile</c> converts the given tile into a special tile
+    /// </summary>
+    /// <param name="tile"></param>
     private void IncreaseScoreTile(GameObject tile, float scoreMultiplier)
     {
         GameObject orginTile = tile;
@@ -229,7 +252,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Convert a tile into a multi-row destroy tile
+    /// <summary>
+    /// Method <c>MultiDestroyTile</c> converts the given tile into a special tile
+    /// </summary>
+    /// <param name="tile"></param>
     private void MultiDestroyTile(GameObject tile)
     {
         GameObject orginTile = tile;
@@ -251,7 +277,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Convert tiles to a tile which unlinks tiles above and below it
+    /// <summary>
+    /// Method <c>UnLinkAboveAndBelowTile</c> converts the given tile into a special tile
+    /// </summary>
+    /// <param name="tile"></param>
     private void UnLinkAboveAndBelowTile(GameObject tile)
     {
         GameObject orginTile = tile;
@@ -273,7 +302,10 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Move every row up by one
+    /// <summary>
+    /// Method <c>MoveRowsUp</c> moves the given row up by one
+    /// </summary>
+    /// <param name="row"></param>
     private void MoveRowsUp(int row)
     {
         if (row == 0)
@@ -308,7 +340,11 @@ public class BoardController : MonoBehaviour
         MoveRowsUp(row - 1);
     }
 
-    // Decide if the row below each tile is good to be moved to, and move if so
+    /// <summary>
+    /// Method <c>CheckRowBelow</c> checks to see if the row below and moves tiles accordingly
+    /// </summary>
+    /// <param name="row"></param>
+    /// <returns>Whether tiles have been moved or not</returns>
     private bool CheckRowBelow(int row)
     {
         if (row == ROW_COUNT) return false;
@@ -358,7 +394,11 @@ public class BoardController : MonoBehaviour
         return moved;
     }
 
-    // Move the tile at the row and column down by one
+    /// <summary>
+    /// Method <c>MoveTilesDown</c> moves the tile at the given row and column down
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="column"></param>
     private void MoveTilesDown(int row, int column)
     {
         int rowBelow = row - 1;
@@ -374,7 +414,12 @@ public class BoardController : MonoBehaviour
         tile.GetComponent<MoveTile>().Move(newPosition);
     }
 
-    // Determines if the tile is multilengthed
+    /// <summary>
+    /// Method <c>CheckMultiLengthTile</c> check if the tile at the row and column is multiple tiles wide
+    /// </summary>
+    /// <param name="tileRow"></param>
+    /// <param name="tileColumn"></param>
+    /// <returns>true if the tile is multiple wide, false otherwise</returns>
     private bool CheckMultiLengthTile(int tileRow, int tileColumn)
     {
         GameObject tile = tileObjects[tileRow][tileColumn];
@@ -388,20 +433,32 @@ public class BoardController : MonoBehaviour
         return true;
     }
 
-    // Determines if there is a tile at the row below
+    /// <summary>
+    /// Method <c>CheckTile</c> checks if their is a tile at the given row(-1) and column
+    /// </summary>
+    /// <param name="tileRow"></param>
+    /// <param name="tileColumn"></param>
+    /// <returns>true if there is not a tile at the position, flase otherwise</returns>
     private bool CheckTile(int tileRow, int tileColumn)
     {
         if (locations[tileRow - 1][tileColumn]) return false;
         return true;
     }
 
-    // Determine if the row has been complete
+    /// <summary>
+    /// Method <c>RowComplete</c> determines whether the row is complete or not
+    /// </summary>
+    /// <param name="row">the row to check</param>
+    /// <returns>true if complete, false otherwise</returns>
     private bool RowComplete(int row)
     {
         return !locations[row].Contains(false);
     }
 
-    // Destroy the given row
+    /// <summary>
+    /// Method <c>DestroyRow</c> this one is self explanitory
+    /// </summary>
+    /// <param name="row"></param>
     private void DestroyRow(int row)
     {
         if (row < 0 || row > ROW_COUNT) return;
@@ -435,7 +492,11 @@ public class BoardController : MonoBehaviour
         if (destroyAboveAndBelow) DestroyRow(row + 1);
     }
 
-    // Makes tiles fall then go up
+    /// <summary>
+    /// Method <c>Fall</c> causes the tiles to fall then be pushed up a row
+    /// </summary>
+    /// <param name="pushUp">boolean that determines whethe ror not to go up</param>
+    /// <returns></returns>
     private IEnumerator Fall(bool pushUp)
     {
         int row = 1;

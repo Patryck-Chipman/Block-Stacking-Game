@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     /// <summary>
-    /// Field <c>follow</c> is whether the object is following the mouse
+    /// Field <c>follow</c> is whether the object is following the pointer (mouse/finger)
     /// </summary>
     public bool follow { get; private set; }
     /// <summary>
@@ -16,6 +16,10 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
     /// Field <c>distance</c> is how far from the epicenter (mouse position) this tile should be
     /// </summary>
     public int distance { get; private set; }
+    /// <summary>
+    /// Field <c>pointerPosition</c> is the currentPosition of the pointer
+    /// </summary>
+    public Vector2 pointerPosition;
 
     private Vector2 _position;
     private Vector2 _newPosition;
@@ -48,39 +52,13 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
 
         // Have the object follow the mouse
-        /*if (follow)
+        if (follow)
         {
-            Vector2 newPosition = GetMousePosition();
+            Vector2 newPosition = new Vector2(pointerPosition.x, transform.position.y);
             newPosition.x += distance;
             transform.position = newPosition;
             
-        }*/
-    }
-
-    // Begin moving process
-    public void Move(Vector2 newPosition)
-    {
-        //lastPosition = transform.position;
-        int newX = Mathf.RoundToInt(newPosition.x);
-        int newY = Mathf.RoundToInt(newPosition.y);
-
-        newPosition.x = newX;
-        newPosition.y = newY;
-
-        SetNewValues(newY, newX);
-        SetNewValues(newY, newX);
-
-        _moving = true;
-        _newPosition = newPosition;
-
-        // Floats are weird man
-        if (newPosition.y == Mathf.RoundToInt(transform.position.y))
-        {
-            transform.position = newPosition;
-            return;
         }
-
-        StartCoroutine(Move(transform.position, newPosition));
     }
 
     // Detect mouse down events
@@ -108,6 +86,10 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         MakeAllFollow();
     }*/
 
+    /// <summary>
+    /// Method <c>OnPointerDown</c> computes what to do when the user presses their pointer (mouse/finger)
+    /// </summary>
+    /// <param name="data"></param>
     public void OnPointerDown(PointerEventData data)
     {
         if (PlayerPrefs.GetInt("Game Over") == 1) return;
@@ -117,7 +99,7 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         {
             if (!ValidMove())
             {
-                MoveAll(true, 0);
+                //MoveAll(true, 0);
                 return;
             }
 
@@ -132,18 +114,57 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         MakeAllFollow();
     }
 
+    /// <summary>
+    /// Method <c>OnPointerUp</c> computes what to do when the user lifts thier pointer(mouse/finger)
+    /// </summary>
+    /// <param name="data"></param>
+    public void OnPointerUp(PointerEventData data)
+    {
+        if (PlayerPrefs.GetInt("Game Over") == 1) return;
+
+        if (follow)
+        {
+            if (!ValidMove())
+            {
+                //MoveAll(true, 0);
+                return;
+            }
+
+            PlayerPrefs.SetInt("Moved", 1);
+            MoveAll(false, 0);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Method <c>OnDrag</c> computes what to do while the user is dragging their pointer (mouse/finger)
+    /// </summary>
+    /// <param name="data"></param>
     public void OnDrag(PointerEventData data)
     {
         if (follow)
         {
-            Vector2 newPosition = Camera.main.ScreenToWorldPoint(data.position);
-            newPosition.x += distance;
-            transform.position = newPosition;
+            pointerPosition = Camera.main.ScreenToWorldPoint(data.position);
 
+            GameObject tile = GetComponent<LinkTiles>().nextTile;
+            while (tile != null)
+            {
+                tile.GetComponent<MoveTile>().pointerPosition = pointerPosition;
+                tile = tile.GetComponent<LinkTiles>().nextTile;
+            }
+            tile = GetComponent<LinkTiles>().previousTile;
+            while (tile != null)
+            {
+                tile.GetComponent<MoveTile>().pointerPosition = pointerPosition;
+                tile = tile.GetComponent<LinkTiles>().previousTile;
+            }
         }
     }
 
-    // Return rounded position
+    /// <summary>
+    /// Method <c>MakePosition</c> creates a rounded position vector
+    /// </summary>
+    /// <returns>Vector2 rounded position</returns>
     private Vector2 MakePosition()
     {
         Vector2 position = transform.position;
@@ -163,7 +184,10 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
     }*/
 
 
-    // Return whether the designated move is valid
+    /// <summary>
+    /// Method <c>ValidMove</c> determines whether a move is avlid or not
+    /// </summary>
+    /// <returns>true if the move is unobstructed, false otherwise</returns>
     private bool ValidMove()
     {
         GameObject tile = this.gameObject;
@@ -208,7 +232,94 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         return true;
     }
 
-    // Move this tile as well as the ones connected to it
+    /// <summary>
+    /// Method <c>SamePosition</c> determines if the position the tile is at is the same as its previous one
+    /// </summary>
+    /// <returns>true if the position is the same, false if not</returns>
+    private bool SamePosition()
+    {
+        if (Mathf.RoundToInt(transform.position.x) == Mathf.RoundToInt(lastPosition.x)) return true;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Method <c>MakeAllFollow</c> causes all linked tiles to follow the current one
+    /// </summary>
+    private void MakeAllFollow()
+    {
+        GameObject tile = this.gameObject;
+        int newDistance = distance;
+
+        // Make tiles to the right follow
+        while (tile != null)
+        {
+            tile.GetComponent<MoveTile>().Follow(newDistance);
+            tile = tile.GetComponent<LinkTiles>().nextTile;
+            newDistance++;
+        }
+
+        tile = this.gameObject.GetComponent<LinkTiles>().previousTile;
+        newDistance = distance - 1;
+
+        // Make tiles to the left follow
+        while (tile != null)
+        {
+            tile.GetComponent<MoveTile>().Follow(newDistance);
+            tile = tile.GetComponent<LinkTiles>().previousTile;
+            newDistance--;
+        }
+    }
+
+    /// <summary>
+    /// Method <c>Move</c> moves the tile to its new position
+    /// </summary>
+    /// <param name="startPosition"></param>
+    /// <param name="newPosition"></param>
+    /// <returns></returns>
+    private IEnumerator Move(Vector2 startPosition, Vector2 newPosition)
+    {
+        for (float time = 0; time < 1; time += Time.deltaTime / MOVE_TIME)
+        {
+            transform.position = Vector2.Lerp(startPosition, newPosition, time);
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Method <c>Move</c> begins the moving process for the tiles
+    /// </summary>
+    /// <param name="newPosition"></param>
+    public void Move(Vector2 newPosition)
+    {
+        //lastPosition = transform.position;
+        int newX = Mathf.RoundToInt(newPosition.x);
+        int newY = Mathf.RoundToInt(newPosition.y);
+
+        newPosition.x = newX;
+        newPosition.y = newY;
+
+        SetNewValues(newY, newX);
+        SetNewValues(newY, newX);
+
+        _moving = true;
+        _newPosition = newPosition;
+
+        // Floats are weird man
+        if (newPosition.y == Mathf.RoundToInt(transform.position.y))
+        {
+            transform.position = newPosition;
+            return;
+        }
+
+        StartCoroutine(Move(transform.position, newPosition));
+    }
+
+    /// <summary>
+    /// Method <c>MoveAll</c> moves all tiles connect to the current one to a new position
+    /// </summary>
+    /// <param name="back">boolean <c>back</c> determines whether the current set of tiles is moving to their original position</param>
+    /// <param name="row">int <c>row</c> is the row which the tiles are moving to</param>
     public void MoveAll(bool back, int row)
     {
         BoardController boardControl = Camera.main.GetComponent<BoardController>();
@@ -269,49 +380,6 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
 
         PlayerPrefs.SetInt("IsMoving", 0);
-    }
-
-    private bool SamePosition()
-    {
-        if (Mathf.RoundToInt(transform.position.x) == Mathf.RoundToInt(lastPosition.x)) return true;
-
-        return false;
-    }
-
-    // Make all tiles connected to this one follow the mouse
-    private void MakeAllFollow()
-    {
-        GameObject tile = this.gameObject;
-        int newDistance = distance;
-
-        // Make tiles to the right follow
-        while (tile != null)
-        {
-            tile.GetComponent<MoveTile>().Follow(newDistance);
-            tile = tile.GetComponent<LinkTiles>().nextTile;
-            newDistance++;
-        }
-
-        tile = this.gameObject.GetComponent<LinkTiles>().previousTile;
-        newDistance = distance - 1;
-
-        // Make tiles to the left follow
-        while (tile != null)
-        {
-            tile.GetComponent<MoveTile>().Follow(newDistance);
-            tile = tile.GetComponent<LinkTiles>().previousTile;
-            newDistance--;
-        }
-    }
-
-    // Move tile
-    private IEnumerator Move(Vector2 startPosition, Vector2 newPosition)
-    {
-        for (float time = 0; time < 1; time += Time.deltaTime / MOVE_TIME)
-        {
-            transform.position = Vector2.Lerp(startPosition, newPosition, time);
-            yield return null;
-        }
     }
 
     /// <summary>
