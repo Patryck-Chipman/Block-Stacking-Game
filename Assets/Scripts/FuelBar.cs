@@ -14,25 +14,28 @@ public class FuelBar : MonoBehaviour
     /// Field <c>fuel</c> is the float value of fuel remaining
     /// </summary>
     public float fuel { get; private set; }
-
-    private const float MAX_FUEL = 600; // Roughly ten seconds worth of fuel
+    private  const float START_FUEL = 600; // Roughly ten seconds worth of fuel
+    private float _maxFuel = START_FUEL;
 
     // Start is called before the first frame update
     void Start()
     {
-        fuel = MAX_FUEL;
+        fuel = _maxFuel;
         _mask.fillAmount = 1f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        _maxFuel = START_FUEL - (PlayerPrefs.GetInt("CurrentLevel") - 1) * 20;
+        if (_maxFuel <= 300) _maxFuel = 300;
+
         if (fuel == 0 && PlayerPrefs.GetInt("Game Over") == 0) _gameOver.StopGame();
-        if (fuel > MAX_FUEL) fuel = MAX_FUEL;
+        if (fuel > _maxFuel) fuel = _maxFuel;
         if (fuel < 0) fuel = 0;
 
         if (PlayerPrefs.GetInt("Game Over") == 0) fuel--;
-        _mask.fillAmount = fuel / MAX_FUEL;
+        _mask.fillAmount = fuel / _maxFuel;
     }
 
     /// <summary>

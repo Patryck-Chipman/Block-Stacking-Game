@@ -486,8 +486,11 @@ public class BoardController : MonoBehaviour
         }
 
         _scoreboard.AddScore(totalScore);
+        _scoreboard.CreateScorePopup(totalScore);
 
         _fuelBar.IncreaseFuel(1000);
+
+        PlayerPrefs.SetInt("Rows Destroyed", PlayerPrefs.GetInt("Rows Destroyed") + 1);
 
         if (destroyAboveAndBelow) DestroyRow(row + 1);
     }
@@ -499,6 +502,7 @@ public class BoardController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Fall(bool pushUp)
     {
+        int closeCalls = PlayerPrefs.GetInt("Close Calls");
         int row = 1;
         while (row < ROW_COUNT)
         {
@@ -524,6 +528,9 @@ public class BoardController : MonoBehaviour
             StartCoroutine(Fall(false));
         }
 
+        // Runs twice for some reason
+        if (closeCalls != PlayerPrefs.GetInt("Close Calls")) yield break;
+        if (locations[ROW_COUNT - 2].Contains(true)) PlayerPrefs.SetInt("Close Calls", PlayerPrefs.GetInt("Close Calls") + 1);
         if (locations[ROW_COUNT - 1].Contains(true)) _gameOver.StopGame();
     }
 

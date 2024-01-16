@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Score : MonoBehaviour
 {
     [SerializeField] private HighScore _highScore;
     [SerializeField] private LevelProgressBar _progressBar;
+    [SerializeField] private GameObject _scorePopupPrefab;
 
     private void Start()
     {
@@ -34,6 +36,22 @@ public class Score : MonoBehaviour
         if (tile == null) return Mathf.RoundToInt(score);
 
         return Mathf.RoundToInt(score * tile.GetComponent<TileScore>().scoreMultiplier);
+    }
+
+    /// <summary>
+    /// Method <c>CreateScorePopup</c> creates a textbox on the screen that displays the score earned
+    /// </summary>
+    /// <param name="score">Score to display</param>
+    public void CreateScorePopup(int score)
+    {
+        var randomX = Random.Range(140, 900);
+        var randomY = Random.Range(1200, 1400);
+        Vector2 labelPosition = new Vector2(randomX, randomY);
+        Quaternion labelRotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, Random.Range(-45, 45));
+        GameObject scorePopup = Instantiate(_scorePopupPrefab, labelPosition, labelRotation);
+        scorePopup.transform.SetParent(GameObject.Find("Canvas").transform);
+        scorePopup.GetComponent<TextMeshProUGUI>().text = score.ToString();
+        PlayerPrefs.SetInt("Total Score", PlayerPrefs.GetInt("Total Score") + score);
     }
 
     /// <summary>

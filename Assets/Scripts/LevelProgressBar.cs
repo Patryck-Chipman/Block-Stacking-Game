@@ -38,7 +38,6 @@ public class LevelProgressBar : MonoBehaviour
 
         coroutine = Fill(fillAmount);
         StartCoroutine(coroutine);
-        //StartCoroutine(Fill(fillAmount));
     }
 
     // Bring the progress bar back to 0

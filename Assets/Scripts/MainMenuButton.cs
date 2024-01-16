@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ResetLevel : MonoBehaviour
+public class MainMenuButton : MonoBehaviour
 {
     /// <summary>
-    /// Method <c>Reset</c> resets the level inlcuding score
+    /// Method <c>Reset</c> Loads the main menu
     /// </summary>
     public void Reset()
     {
-        Debug.Log("pressed");
-        SceneManager.LoadScene("Level");
+        SceneManager.LoadScene("Home");
     }
 }

@@ -93,4 +93,9 @@ public class LinkTiles : MonoBehaviour
 
         return length;
     }
+
+    private void Update()
+    {
+        transform.localScale = new Vector3(1.05f, 1, 1);
+    }
 }

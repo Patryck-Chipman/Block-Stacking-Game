@@ -201,6 +201,7 @@ public class MoveTile : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         }
 
         Debug.Log("Case 2: Move is valid");
+        PlayerPrefs.SetInt("Total Moves", PlayerPrefs.GetInt("Total Moves") + 1);
         return true;
     }
 

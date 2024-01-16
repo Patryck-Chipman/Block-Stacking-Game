@@ -8,7 +8,6 @@ public class GameOver : MonoBehaviour
 {
     [SerializeField] private BoardController _controller;
     [SerializeField] private GameObject _gameOverUI;
-    [SerializeField] private ResetLevel _gameGoingReset;
 
     private GameObject[][] _tileObjects;
     private IEnumerator _coroutine;
@@ -25,12 +24,12 @@ public class GameOver : MonoBehaviour
     /// </summary>
     public void StopGame()
     {
+        PlayerPrefs.SetInt("Total Games", PlayerPrefs.GetInt("Total Games") + 1);
         PlayerPrefs.SetInt("Game Over", 1);
         _tileObjects = _controller.tileObjects;
         _coroutine = MakeTilesGray();
         StartCoroutine(_coroutine);
         _gameOverUI.gameObject.SetActive(true);
-        _gameGoingReset.gameObject.SetActive(false);
     }
 
     private IEnumerator MakeTilesGray()

@@ -9,6 +9,7 @@ public class LevelLabel : MonoBehaviour
     void Start()
     {
         _level = 1;
+        PlayerPrefs.SetInt("CurrentLevel", _level);
         DisplayLevel();
     }
 
@@ -18,7 +19,13 @@ public class LevelLabel : MonoBehaviour
     public void IncreaseLevel()
     {
         _level++;
+        PlayerPrefs.SetInt("CurrentLevel", _level);
         DisplayLevel();
+        if (_level == 10) PlayerPrefs.SetInt("Times Level 10 Reached", PlayerPrefs.GetInt("Times Level 10 Reached") + 1);
+        if (_level == 25) PlayerPrefs.SetInt("Times Level 25 Reached", PlayerPrefs.GetInt("Times Level 25 Reached") + 1);
+        if (_level == 50) PlayerPrefs.SetInt("Times Level 50 Reached", PlayerPrefs.GetInt("Times Level 50 Reached") + 1);
+        if (_level == 100) PlayerPrefs.SetInt("Times Level 100 Reached", PlayerPrefs.GetInt("Times Level 100 Reached") + 1);
+        if (_level > PlayerPrefs.GetInt("Highest Level")) PlayerPrefs.SetInt("Highest Level", _level);
     }
 
     // Change the level text to the new level
