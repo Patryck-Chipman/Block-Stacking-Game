@@ -47,17 +47,19 @@ public class LevelProgressBar : MonoBehaviour
         _min = _max;
         _max = PlayerPrefs.GetInt("ScoreIncreaseThreshold");
         CalculateFillPercent(PlayerPrefs.GetInt("Score"));
-        _mask.fillAmount = 0;
+        GetComponent<ClassicProgressBar>().m_FillAmount = 0;
+        //_mask.fillAmount = 0;
     }
 
     // Gradually fill the progress bar
     IEnumerator Fill(float fillAmount)
     {
-        if (fillAmount < _mask.fillAmount) yield return null;
+        if (fillAmount < /*_mask.fillAmount*/GetComponent<ClassicProgressBar>().m_FillAmount) yield return null;
 
-        while (_mask.fillAmount < fillAmount)
+        while (/*_mask.fillAmount*/GetComponent<ClassicProgressBar>().m_FillAmount < fillAmount)
         {
-            _mask.fillAmount += 0.01f;
+            GetComponent<ClassicProgressBar>().m_FillAmount += 0.01f;
+            //_mask.fillAmount += 0.01f;
             yield return new WaitForSeconds(0.05f);
         }
 

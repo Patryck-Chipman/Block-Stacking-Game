@@ -21,7 +21,8 @@ public class FuelBar : MonoBehaviour
     void Start()
     {
         fuel = _maxFuel;
-        _mask.fillAmount = 1f;
+        GetComponent<CircularProgressBar>().m_FillAmount = 1;
+        //_mask.fillAmount = 1f;
     }
 
     // Update is called once per frame
@@ -35,7 +36,8 @@ public class FuelBar : MonoBehaviour
         if (fuel < 0) fuel = 0;
 
         if (PlayerPrefs.GetInt("Game Over") == 0) fuel--;
-        _mask.fillAmount = fuel / _maxFuel;
+        //_mask.fillAmount = fuel / _maxFuel;
+        GetComponent<CircularProgressBar>().m_FillAmount = fuel / _maxFuel;
     }
 
     /// <summary>
