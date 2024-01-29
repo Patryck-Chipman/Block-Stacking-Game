@@ -23,7 +23,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] private AudioClip _rowCompleteSound;
 
     // Constants
-    private const int ROW_COUNT = 10;
+    private const int ROW_COUNT = 8;
     private const int COLUMN_COUNT = 8;
 
     // Start is called before the first frame update
