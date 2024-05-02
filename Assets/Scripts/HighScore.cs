@@ -16,8 +16,8 @@ public class HighScore : MonoBehaviour
 
     private void Update()
     {
-        int displayedHighScore = Int32.Parse(transform.GetComponent<TextMeshProUGUI>().text);
-        if (highscore > displayedHighScore) DisplayScore();
+        highscore = PlayerPrefs.GetInt("High Score");
+        DisplayScore();
     }
 
     /// <summary>
@@ -25,6 +25,7 @@ public class HighScore : MonoBehaviour
     /// </summary>
     public void DisplayScore()
     {
-        transform.GetComponent<TextMeshProUGUI>().text = highscore.ToString();
+        string formatted = GetComponent<IntegerLabel>().format(highscore);
+        transform.GetComponent<TextMeshProUGUI>().text = formatted;
     }
 }

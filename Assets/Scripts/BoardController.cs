@@ -25,6 +25,11 @@ public class BoardController : MonoBehaviour
     // Constants
     private const int ROW_COUNT = 8;
     private const int COLUMN_COUNT = 8;
+    private const int BASE_SCORE = 100;
+
+    // Global
+    private int score = BASE_SCORE;
+    private float score_multiplier = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -233,11 +238,16 @@ public class BoardController : MonoBehaviour
     {
         GameObject orginTile = tile;
 
+        tile.AddComponent<IncreaseScoreTile>();
+        tile.GetComponent<ChangeColor>().Rotate();
+        tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier();
+        tile = tile.GetComponent<LinkTiles>().nextTile;
+
         while (tile != null)
         {
             tile.AddComponent<IncreaseScoreTile>();
             tile.GetComponent<ChangeColor>().Rotate();
-            tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
+            //tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().nextTile;
         }
 
@@ -247,7 +257,7 @@ public class BoardController : MonoBehaviour
         {
             tile.AddComponent<IncreaseScoreTile>();
             tile.GetComponent<ChangeColor>().Rotate();
-            tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
+            //tile.GetComponent<IncreaseScoreTile>().ChangeScoreMultiplier(scoreMultiplier);
             tile = tile.GetComponent<LinkTiles>().previousTile;
         }
     }
@@ -464,15 +474,17 @@ public class BoardController : MonoBehaviour
         if (row < 0 || row > ROW_COUNT) return;
 
         bool destroyAboveAndBelow = false;
-        int totalScore = 0;
+        float totalScore = 0;
+        totalScore += _scoreboard.GenerateScore();
 
         _soundPlayer.PlaySound(_rowCompleteSound);
 
         for (int column = 0; column < COLUMN_COUNT; column++)
         {
-            totalScore += _scoreboard.GenerateScore(tileObjects[row][column]);
-
             if (!locations[row][column]) continue;
+
+            if (tileObjects[row][column].TryGetComponent<IncreaseScoreTile>(out IncreaseScoreTile _))
+                totalScore *= 1.1f;
 
             if (tileObjects[row][column].TryGetComponent<MultiDestroyTile>(out MultiDestroyTile _))
                 destroyAboveAndBelow = true;
@@ -485,8 +497,8 @@ public class BoardController : MonoBehaviour
             tileObjects[row][column] = null;
         }
 
-        _scoreboard.AddScore(totalScore);
-        _scoreboard.CreateScorePopup(totalScore);
+        _scoreboard.AddScore((int)totalScore);
+        _scoreboard.CreateScorePopup((int)totalScore);
 
         _fuelBar.IncreaseFuel(1000);
 

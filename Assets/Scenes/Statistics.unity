@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 459230155}
   - component: {fileID: 459230153}
   - component: {fileID: 459230157}
+  - component: {fileID: 459230158}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -461,8 +462,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -524,6 +525,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Times Level 100 Reached
+--- !u!114 &459230158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459230151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &461017992
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +698,7 @@ GameObject:
   - component: {fileID: 592048711}
   - component: {fileID: 592048710}
   - component: {fileID: 592048709}
+  - component: {fileID: 592048713}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -784,8 +798,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -834,6 +848,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592048707}
   m_CullTransparentMesh: 1
+--- !u!114 &592048713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592048707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619089471
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,6 +905,7 @@ GameObject:
   - component: {fileID: 680692812}
   - component: {fileID: 680692810}
   - component: {fileID: 680692814}
+  - component: {fileID: 680692815}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -965,8 +992,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1028,6 +1055,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Times Level 10 Reached
+--- !u!114 &680692815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680692808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &778149030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1080,7 @@ GameObject:
   - component: {fileID: 778149034}
   - component: {fileID: 778149032}
   - component: {fileID: 778149036}
+  - component: {fileID: 778149037}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -1127,8 +1167,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1190,6 +1230,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Total Games
+--- !u!114 &778149037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778149030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &785048361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1355,7 @@ GameObject:
   - component: {fileID: 838830889}
   - component: {fileID: 838830887}
   - component: {fileID: 838830891}
+  - component: {fileID: 838830892}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -1389,8 +1442,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1452,6 +1505,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Close Calls
+--- !u!114 &838830892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838830885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &859248383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,6 +1686,7 @@ GameObject:
   - component: {fileID: 983862148}
   - component: {fileID: 983862146}
   - component: {fileID: 983862150}
+  - component: {fileID: 983862151}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -1707,8 +1773,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1770,6 +1836,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: High Score
+--- !u!114 &983862151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983862144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1010822424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2059,7 @@ GameObject:
   - component: {fileID: 1118833326}
   - component: {fileID: 1118833324}
   - component: {fileID: 1118833328}
+  - component: {fileID: 1118833329}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -2067,8 +2146,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2130,6 +2209,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Rows Destroyed
+--- !u!114 &1118833329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118833322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1206380079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,6 +2234,7 @@ GameObject:
   - component: {fileID: 1206380083}
   - component: {fileID: 1206380081}
   - component: {fileID: 1206380085}
+  - component: {fileID: 1206380086}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -2229,8 +2321,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2292,6 +2384,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Times Level 50 Reached
+--- !u!114 &1206380086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206380079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1383441746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,6 +2408,7 @@ GameObject:
   - component: {fileID: 1383441750}
   - component: {fileID: 1383441749}
   - component: {fileID: 1383441748}
+  - component: {fileID: 1383441751}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2442,6 +2547,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383441746}
   m_CullTransparentMesh: 1
+--- !u!114 &1383441751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383441746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1411224187
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2572,7 @@ GameObject:
   - component: {fileID: 1411224191}
   - component: {fileID: 1411224189}
   - component: {fileID: 1411224193}
+  - component: {fileID: 1411224194}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -2541,8 +2659,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2604,6 +2722,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Total Moves
+--- !u!114 &1411224194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411224187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1522892148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,6 +2747,7 @@ GameObject:
   - component: {fileID: 1522892152}
   - component: {fileID: 1522892150}
   - component: {fileID: 1522892154}
+  - component: {fileID: 1522892155}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -2703,8 +2834,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2766,6 +2897,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Times Level 25 Reached
+--- !u!114 &1522892155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522892148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660966606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2894,6 +3037,7 @@ GameObject:
   - component: {fileID: 1693662142}
   - component: {fileID: 1693662140}
   - component: {fileID: 1693662144}
+  - component: {fileID: 1693662145}
   m_Layer: 5
   m_Name: Value Label
   m_TagString: Untagged
@@ -2980,8 +3124,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 85.6
+  m_fontSizeBase: 85.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3043,6 +3187,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statName: Highest Level
+--- !u!114 &1693662145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693662138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c674d9309c4bdcb58f09f73a5c9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

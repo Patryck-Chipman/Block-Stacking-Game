@@ -17,6 +17,7 @@ public class Statistic : MonoBehaviour
     /// </summary>
     public void DisplayScore()
     {
-        GetComponent<TextMeshProUGUI>().text = statName + ": " + PlayerPrefs.GetInt(statName).ToString();
+        string formatted = GetComponent<IntegerLabel>().format(PlayerPrefs.GetInt(statName));
+        GetComponent<TextMeshProUGUI>().text = statName + ": " + formatted;
     }
 }

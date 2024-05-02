@@ -12,7 +12,8 @@ public class Score : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.SetInt("BaseScore", 8);
+        PlayerPrefs.SetInt("BaseScore", 100);
+        PlayerPrefs.SetFloat("ScoreMultiplier", 1.0f);
         PlayerPrefs.SetInt("Score", 0);
         PlayerPrefs.SetInt("ScoreIncreaseThreshold", 1000);
         DisplayScore();
@@ -21,7 +22,8 @@ public class Score : MonoBehaviour
     // Displays the score in the text component
     private void DisplayScore()
     {
-        GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("Score").ToString();
+        string formatted = GetComponent<IntegerLabel>().format(PlayerPrefs.GetInt("Score"));
+        GetComponent<TextMeshProUGUI>().text = formatted;
     }
 
     /// <summary>
@@ -29,13 +31,12 @@ public class Score : MonoBehaviour
     /// </summary>
     /// <param name="tile">the tile for which score should be calculated.</param>
     /// <returns>The calculated score</returns>
-    public int GenerateScore(GameObject tile)
+    public int GenerateScore(/*GameObject tile*/)
     {
         float score = PlayerPrefs.GetInt("BaseScore");
+        float scoreMultiplier = PlayerPrefs.GetFloat("ScoreMultiplier");
 
-        if (tile == null) return Mathf.RoundToInt(score);
-
-        return Mathf.RoundToInt(score * tile.GetComponent<TileScore>().scoreMultiplier);
+        return Mathf.RoundToInt(score * scoreMultiplier);
     }
 
     /// <summary>
@@ -66,8 +67,8 @@ public class Score : MonoBehaviour
 
         if (score >= PlayerPrefs.GetInt("ScoreIncreaseThreshold"))
         {
-            PlayerPrefs.SetInt("BaseScore", Mathf.RoundToInt(PlayerPrefs.GetInt("BaseScore") * 1.5f));
-            PlayerPrefs.SetInt("ScoreIncreaseThreshold", (int)(PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 1.5f));
+            PlayerPrefs.SetFloat("ScoreMultiplier", PlayerPrefs.GetFloat("ScoreMultiplier") * 1.5f);
+            PlayerPrefs.SetInt("ScoreIncreaseThreshold", (int)(PlayerPrefs.GetInt("ScoreIncreaseThreshold") * 2.0f));
         }
 
         if (score > PlayerPrefs.GetInt("High Score"))
