@@ -21,6 +21,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] private GameOver _gameOver;
     [SerializeField] private SoundPlayer _soundPlayer;
     [SerializeField] private AudioClip _rowCompleteSound;
+    [SerializeField] private GameObject _moveScreen;
 
     // Constants
     private const int ROW_COUNT = 8;
@@ -514,6 +515,7 @@ public class BoardController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Fall(bool pushUp)
     {
+        _moveScreen.gameObject.SetActive(true);
         int closeCalls = PlayerPrefs.GetInt("Close Calls");
         int row = 1;
         while (row < ROW_COUNT)
@@ -539,6 +541,8 @@ public class BoardController : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             StartCoroutine(Fall(false));
         }
+
+        _moveScreen.gameObject.SetActive(false);
 
         // Runs twice for some reason
         if (closeCalls != PlayerPrefs.GetInt("Close Calls")) yield break;
